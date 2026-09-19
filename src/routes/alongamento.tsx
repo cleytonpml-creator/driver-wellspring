@@ -153,14 +153,14 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
         </div>
         <div className="flex gap-2">
           <button
-            onClick={(e) => { e.stopPropagation(); if (left === 0) setLeft(ex.secs); setRunning((v) => !v); }}
+            onClick={(e) => { e.stopPropagation(); toggle(); }}
             aria-label={running ? "Pausar" : "Iniciar"}
             className={`tap flex size-14 items-center justify-center rounded-2xl ${running ? "bg-secondary text-foreground" : "bg-electric text-accent-foreground shadow-electric"}`}
           >
             {running ? <Pause className="size-6" /> : <Play className="size-6 translate-x-0.5" fill="currentColor" />}
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); setRunning(false); setLeft(ex.secs); }}
+            onClick={(e) => { e.stopPropagation(); setRunning(false); setLeft(ex.secs); window.speechSynthesis?.cancel(); }}
             aria-label="Reiniciar"
             className="tap flex size-14 items-center justify-center rounded-2xl bg-secondary text-muted-foreground"
           >
