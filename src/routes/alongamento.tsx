@@ -68,6 +68,32 @@ function fmt(s: number) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
+function speak(text: string) {
+  if (!("speechSynthesis" in window)) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "pt-BR";
+  u.rate = 1;
+  const voice = window.speechSynthesis.getVoices().find((v) => v.lang.startsWith("pt"));
+  if (voice) u.voice = voice;
+  window.speechSynthesis.speak(u);
+}
+
+function beep(freq = 880, dur = 0.25) {
+  const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!Ctx) return;
+  const ctx = new Ctx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0.25, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime + dur);
+  osc.onended = () => ctx.close();
+}
+
 function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done: boolean; onDone: () => void }) {
   const [left, setLeft] = useState(ex.secs);
   const [running, setRunning] = useState(false);
@@ -77,12 +103,25 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
     if (!running) return;
     if (left <= 0) {
       setRunning(false);
+      beep(880, 0.3);
+      setTimeout(() => beep(1320, 0.35), 250);
+      speak("Muito bem! Exercício concluído.");
       onDone();
       return;
     }
+    if (left === 10) speak("Últimos dez segundos.");
     const id = setTimeout(() => setLeft((l) => l - 1), 1000);
     return () => clearTimeout(id);
   }, [running, left, onDone]);
+
+  const toggle = () => {
+    if (left === 0) setLeft(ex.secs);
+    setRunning((v) => {
+      if (!v) speak(`${ex.name}. ${ex.steps.join(". ")}. Começando!`);
+      else window.speechSynthesis?.cancel();
+      return !v;
+    });
+  };
 
   const pct = ((ex.secs - left) / ex.secs) * 100;
   const r = 30;
@@ -114,14 +153,14 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
         </div>
         <div className="flex gap-2">
           <button
-            onClick={(e) => { e.stopPropagation(); if (left === 0) setLeft(ex.secs); setRunning((v) => !v); }}
+            onClick={(e) => { e.stopPropagation(); toggle(); }}
             aria-label={running ? "Pausar" : "Iniciar"}
             className={`tap flex size-14 items-center justify-center rounded-2xl ${running ? "bg-secondary text-foreground" : "bg-electric text-accent-foreground shadow-electric"}`}
           >
             {running ? <Pause className="size-6" /> : <Play className="size-6 translate-x-0.5" fill="currentColor" />}
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); setRunning(false); setLeft(ex.secs); }}
+            onClick={(e) => { e.stopPropagation(); setRunning(false); setLeft(ex.secs); window.speechSynthesis?.cancel(); }}
             aria-label="Reiniciar"
             className="tap flex size-14 items-center justify-center rounded-2xl bg-secondary text-muted-foreground"
           >
