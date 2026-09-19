@@ -144,9 +144,9 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
 }
 
 function Alongamento() {
-  const [catId, setCatId] = useState(cats[0].id);
+  const [catId, setCatId] = useState("lombar");
   const [done, setDone] = useState<Record<string, boolean>>({});
-  const cat = cats.find((c) => c.id === catId)!;
+  const cat = cats.find((c) => c.id === catId) ?? cats[0]!;
   const doneCount = cat.exs.filter((e) => done[`${cat.id}-${e.name}`]).length;
 
   return (

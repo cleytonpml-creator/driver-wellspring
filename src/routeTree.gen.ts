@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlongamentoRouteImport } from './routes/alongamento'
+import { Route as ApoioRouteImport } from './routes/apoio'
+import { Route as NutricaoRouteImport } from './routes/nutricao'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlongamentoRoute = AlongamentoRouteImport.update({
+  id: '/alongamento',
+  path: '/alongamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApoioRoute = ApoioRouteImport.update({
+  id: '/apoio',
+  path: '/apoio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NutricaoRoute = NutricaoRouteImport.update({
+  id: '/nutricao',
+  path: '/nutricao',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alongamento': typeof AlongamentoRoute
+  '/apoio': typeof ApoioRoute
+  '/nutricao': typeof NutricaoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alongamento': typeof AlongamentoRoute
+  '/apoio': typeof ApoioRoute
+  '/nutricao': typeof NutricaoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/alongamento': typeof AlongamentoRoute
+  '/apoio': typeof ApoioRoute
+  '/nutricao': typeof NutricaoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/alongamento' | '/apoio' | '/nutricao'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/alongamento' | '/apoio' | '/nutricao'
+  id: '__root__' | '/' | '/alongamento' | '/apoio' | '/nutricao'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlongamentoRoute: typeof AlongamentoRoute
+  ApoioRoute: typeof ApoioRoute
+  NutricaoRoute: typeof NutricaoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/alongamento': {
+      id: '/alongamento'
+      path: '/alongamento'
+      fullPath: '/alongamento'
+      preLoaderRoute: typeof AlongamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/apoio': {
+      id: '/apoio'
+      path: '/apoio'
+      fullPath: '/apoio'
+      preLoaderRoute: typeof ApoioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nutricao': {
+      id: '/nutricao'
+      path: '/nutricao'
+      fullPath: '/nutricao'
+      preLoaderRoute: typeof NutricaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlongamentoRoute: AlongamentoRoute,
+  ApoioRoute: ApoioRoute,
+  NutricaoRoute: NutricaoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
