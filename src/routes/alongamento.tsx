@@ -93,7 +93,7 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
       style={{ animationDelay: `${index * 60}ms` }}
       className={`glass rounded-3xl p-4 animate-rise transition-all ${running ? "neon-border shadow-electric" : ""} ${done ? "opacity-70" : ""}`}
     >
-      <button onClick={() => setOpen((o) => !o)} className="flex w-full items-center gap-4 text-left">
+      <div onClick={() => setOpen((o) => !o)} className="flex w-full cursor-pointer items-center gap-4 text-left">
         <div className="relative flex size-[76px] shrink-0 items-center justify-center">
           <svg viewBox="0 0 76 76" className="absolute inset-0 -rotate-90">
             <circle cx="38" cy="38" r={r} className="fill-none stroke-secondary" strokeWidth="5" />
@@ -128,7 +128,7 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
             <RotateCcw className="size-5" />
           </button>
         </div>
-      </button>
+      </div>
       {(open || running) && (
         <ol className="mt-4 space-y-2 border-t border-border pt-3 animate-rise">
           {ex.steps.map((s, i) => (
