@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AlongamentoRouteImport } from './routes/alongamento'
 import { Route as ApoioRouteImport } from './routes/apoio'
 import { Route as NutricaoRouteImport } from './routes/nutricao'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +35,25 @@ const NutricaoRoute = NutricaoRouteImport.update({
   path: '/nutricao',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/alongamento': typeof AlongamentoRoute
   '/apoio': typeof ApoioRoute
   '/nutricao': typeof NutricaoRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alongamento': typeof AlongamentoRoute
   '/apoio': typeof ApoioRoute
   '/nutricao': typeof NutricaoRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/alongamento': typeof AlongamentoRoute
   '/apoio': typeof ApoioRoute
   '/nutricao': typeof NutricaoRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/alongamento' | '/apoio' | '/nutricao'
+  fullPaths: '/' | '/alongamento' | '/apoio' | '/nutricao' | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/alongamento' | '/apoio' | '/nutricao'
-  id: '__root__' | '/' | '/alongamento' | '/apoio' | '/nutricao'
+  to: '/' | '/alongamento' | '/apoio' | '/nutricao' | '/api/chat'
+  id: '__root__' | '/' | '/alongamento' | '/apoio' | '/nutricao' | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   AlongamentoRoute: typeof AlongamentoRoute
   ApoioRoute: typeof ApoioRoute
   NutricaoRoute: typeof NutricaoRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NutricaoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AlongamentoRoute: AlongamentoRoute,
   ApoioRoute: ApoioRoute,
   NutricaoRoute: NutricaoRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

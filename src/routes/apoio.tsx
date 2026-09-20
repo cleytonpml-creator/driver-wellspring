@@ -2,12 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { HeartHandshake, Mic, Send, Sparkles, Wind } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { NamePrompt } from "@/components/NamePrompt";
+import { useDriverName } from "@/hooks/useDriverName";
 
 export const Route = createFileRoute("/apoio")({
   head: () => ({
     meta: [
       { title: "Apoio & Desabafo — DriverPulse" },
-      { name: "description", content: "Converse com uma IA empática sobre cansaço, estresse da rota e ansiedade." },
+      { name: "description", content: "Converse livremente com uma IA empática sobre cansaço, estresse da rota e ansiedade." },
       { property: "og:title", content: "Apoio & Desabafo — DriverPulse" },
       { property: "og:description", content: "Um espaço seguro para desabafar durante a rota." },
     ],
@@ -15,38 +17,9 @@ export const Route = createFileRoute("/apoio")({
   component: Apoio,
 });
 
-type Msg = { id: number; from: "ai" | "me"; text: string; breath?: boolean };
+type Msg = { id: string; role: "user" | "assistant"; text: string };
 
 const quick = ["Estou exausto", "Trânsito me estressou", "Ansioso com prazos", "Só quero desabafar"];
-
-function reply(input: string): Msg[] {
-  const t = input.toLowerCase();
-  const n = () => Date.now() + Math.random();
-  if (/(cansa|exaust|sono|esgot)/.test(t))
-    return [
-      { id: n(), from: "ai", text: "Sinto que o dia está pesando. Cansaço assim é sinal de que você deu muito de si — não de fraqueza." },
-      { id: n(), from: "ai", text: "Se puder, pare 2 minutos num lugar seguro. Vamos fazer uma respiração rápida juntos:", breath: true },
-    ];
-  if (/(trânsito|transito|engarraf|buzin|motorista)/.test(t))
-    return [
-      { id: n(), from: "ai", text: "O trânsito tira a paciência de qualquer um. Você não controla a rua, mas controla o seu ritmo dentro da van." },
-      { id: n(), from: "ai", text: "Solte os ombros, afrouxe as mãos no volante e tente esta respiração 4-4-6:", breath: true },
-    ];
-  if (/(ansi|prazo|atras|pressão|pressao|medo)/.test(t))
-    return [
-      { id: n(), from: "ai", text: "Ansiedade por prazo é comum quando tudo depende de você. Uma entrega de cada vez — é só isso que existe agora." },
-      { id: n(), from: "ai", text: "Nomeie 3 coisas que você vê, 2 que ouve e 1 que sente. Isso traz a mente de volta para o presente." },
-    ];
-  if (/(triste|sozinho|sozinha|chor|desanim)/.test(t))
-    return [
-      { id: n(), from: "ai", text: "Obrigado por confiar isso a mim. Passar horas sozinho na estrada pesa mesmo. Você não está sozinho aqui." },
-      { id: n(), from: "ai", text: "Que tal mandar uma mensagem para alguém que gosta de você no próximo ponto? Conexão é combustível." },
-    ];
-  return [
-    { id: n(), from: "ai", text: "Entendi. Estou aqui com você. Quer me contar um pouco mais sobre o que está sentindo agora?" },
-    { id: n(), from: "ai", text: "Lembre: você já venceu 100% dos dias difíceis até hoje. Esse também vai passar. 💙" },
-  ];
-}
 
 function Breath() {
   const [phase, setPhase] = useState(0);
@@ -56,13 +29,13 @@ function Breath() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="mt-3 flex items-center gap-4 rounded-2xl bg-background/50 p-3">
+    <div className="glass mt-3 flex items-center gap-4 rounded-2xl p-3">
       <div className="relative flex size-14 items-center justify-center">
         <span className="absolute inset-0 rounded-full bg-neon/30 animate-breathe" />
         <Wind className="relative size-6 text-neon" />
       </div>
       <div>
-        <p className="text-xs uppercase tracking-widest text-muted-foreground">Respiração guiada</p>
+        <p className="text-xs uppercase tracking-widest text-muted-foreground">Respiração guiada 4-4-6</p>
         <p className="font-display text-lg font-bold text-neon">{phases[phase]}</p>
       </div>
     </div>
@@ -70,62 +43,159 @@ function Breath() {
 }
 
 function Apoio() {
-  const [msgs, setMsgs] = useState<Msg[]>([
-    { id: 1, from: "ai", text: "Oi! Sou seu apoio de bordo. Como você está se sentindo agora? Pode falar sem filtro — aqui é um espaço seguro." },
-  ]);
+  const { name } = useDriverName();
+  const [editName, setEditName] = useState(false);
+  const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState("");
-  const [typing, setTyping] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [listening, setListening] = useState(false);
+  const [breath, setBreath] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+  const recRef = useRef<{ stop: () => void } | null>(null);
+
+  useEffect(() => {
+    setMsgs([
+      {
+        id: "intro",
+        role: "assistant",
+        text: `Oi${name ? `, ${name}` : ""}! Sou seu apoio de bordo. Pode escrever o que quiser, do jeito que vier — cansaço, estresse, dor nas costas, ansiedade. Estou aqui.`,
+      },
+    ]);
+  }, [name]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msgs, typing]);
+  }, [msgs, busy]);
 
-  const send = (value: string) => {
+  const send = async (value: string) => {
     const v = value.trim();
-    if (!v || typing) return;
-    setMsgs((m) => [...m, { id: Date.now(), from: "me", text: v }]);
+    if (!v || busy) return;
+    setError(null);
+    const history = [...msgs.filter((m) => m.id !== "intro"), { id: crypto.randomUUID(), role: "user" as const, text: v }];
+    setMsgs((m) => [...m, { id: crypto.randomUUID(), role: "user", text: v }]);
     setText("");
-    setTyping(true);
-    setTimeout(() => {
-      setMsgs((m) => [...m, ...reply(v)]);
-      setTyping(false);
-    }, 1100);
+    setBusy(true);
+
+    const replyId = crypto.randomUUID();
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          messages: history.map((m) => ({ role: m.role, text: m.text })),
+        }),
+      });
+
+      if (!res.ok || !res.body) {
+        setError((await res.text().catch(() => "")) || "Não consegui responder agora. Tente de novo.");
+        setBusy(false);
+        return;
+      }
+
+      setMsgs((m) => [...m, { id: replyId, role: "assistant", text: "" }]);
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let acc = "";
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += dec.decode(value, { stream: true });
+        setMsgs((m) => m.map((msg) => (msg.id === replyId ? { ...msg, text: acc } : msg)));
+      }
+      if (!acc.trim()) {
+        setMsgs((m) =>
+          m.map((msg) =>
+            msg.id === replyId ? { ...msg, text: "Estou aqui com você. Pode me contar um pouco mais?" } : msg,
+          ),
+        );
+      }
+    } catch {
+      setError("Sem conexão no momento. Tente novamente quando o sinal voltar.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   const toggleMic = () => {
-    if (listening) return;
+    type SR = new () => {
+      lang: string;
+      continuous: boolean;
+      interimResults: boolean;
+      start: () => void;
+      stop: () => void;
+      onresult: ((e: { results: { 0: { transcript: string } }[] }) => void) | null;
+      onend: (() => void) | null;
+      onerror: (() => void) | null;
+    };
+    const w = window as unknown as { SpeechRecognition?: SR; webkitSpeechRecognition?: SR };
+    const Ctor = w.SpeechRecognition ?? w.webkitSpeechRecognition;
+    if (!Ctor) {
+      setError("Seu navegador não suporta ditado por voz. Pode escrever sua mensagem.");
+      return;
+    }
+    if (listening) {
+      recRef.current?.stop();
+      return;
+    }
+    const rec = new Ctor();
+    recRef.current = rec;
+    rec.lang = "pt-BR";
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.onresult = (e) => {
+      const t = Array.from(e.results)
+        .map((r) => r[0].transcript)
+        .join(" ");
+      setText(t);
+    };
+    rec.onend = () => setListening(false);
+    rec.onerror = () => setListening(false);
     setListening(true);
-    setTimeout(() => {
-      setListening(false);
-      setText("Estou muito cansado hoje, o trânsito estava pesado");
-    }, 1800);
+    rec.start();
   };
 
   return (
     <AppShell title="Como Você Está Hoje?" subtitle="IA empática · sempre disponível" icon={HeartHandshake} tone="neon">
-      <div className="flex flex-1 flex-col gap-3 pb-36">
+      {editName && <NamePrompt forceOpen onClose={() => setEditName(false)} />}
+
+      <div className="flex flex-1 flex-col gap-3 pb-40">
+        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+          <span>Falando com {name ?? "você"}</span>
+          <button onClick={() => setEditName(true)} className="tap rounded-full bg-secondary px-3 py-1 font-semibold text-neon">
+            {name ? "Trocar nome" : "Dizer meu nome"}
+          </button>
+          <button
+            onClick={() => setBreath((b) => !b)}
+            className="tap rounded-full bg-secondary px-3 py-1 font-semibold text-neon"
+          >
+            {breath ? "Fechar respiração" : "Respiração guiada"}
+          </button>
+        </div>
+
+        {breath && <Breath />}
+
         {msgs.map((m) => (
-          <div key={m.id} className={`flex animate-rise ${m.from === "me" ? "justify-end" : "justify-start"}`}>
-            {m.from === "ai" && (
+          <div key={m.id} className={`flex animate-rise ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+            {m.role === "assistant" && (
               <div className="mr-2 mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-neon/15 text-neon">
                 <Sparkles className="size-4" />
               </div>
             )}
             <div
-              className={`max-w-[82%] rounded-3xl px-4 py-3 text-[15px] leading-relaxed ${
-                m.from === "me"
+              className={`max-w-[82%] whitespace-pre-wrap rounded-3xl px-4 py-3 text-[15px] leading-relaxed ${
+                m.role === "user"
                   ? "rounded-br-md bg-electric text-accent-foreground shadow-electric"
                   : "glass rounded-bl-md"
               }`}
             >
-              {m.text}
-              {m.breath && <Breath />}
+              {m.text || "…"}
             </div>
           </div>
         ))}
-        {typing && (
+
+        {busy && (
           <div className="flex items-center gap-2 pl-10 text-sm text-muted-foreground animate-rise">
             <span className="flex gap-1">
               <span className="size-2 animate-bounce rounded-full bg-neon" />
@@ -135,6 +205,13 @@ function Apoio() {
             pensando com carinho…
           </div>
         )}
+
+        {error && (
+          <div className="rounded-2xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive-foreground">
+            {error}
+          </div>
+        )}
+
         <div ref={endRef} />
       </div>
 
@@ -144,7 +221,8 @@ function Apoio() {
             <button
               key={q}
               onClick={() => send(q)}
-              className="tap shrink-0 rounded-full border border-neon/30 bg-background/80 px-4 py-2 text-sm font-medium text-neon backdrop-blur hover:bg-neon/10"
+              disabled={busy}
+              className="tap shrink-0 rounded-full border border-neon/30 bg-background/80 px-4 py-2 text-sm font-medium text-neon backdrop-blur hover:bg-neon/10 disabled:opacity-40"
             >
               {q}
             </button>
@@ -153,7 +231,7 @@ function Apoio() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            send(text);
+            void send(text);
           }}
           className="glass neon-border flex items-center gap-2 rounded-3xl p-2"
         >
@@ -170,13 +248,13 @@ function Apoio() {
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder={listening ? "Ouvindo…" : "Escreva ou fale como está…"}
+            placeholder={listening ? "Ouvindo…" : "Escreva ou fale o que quiser…"}
             className="h-12 min-w-0 flex-1 bg-transparent px-2 text-[15px] outline-none placeholder:text-muted-foreground"
           />
           <button
             type="submit"
             aria-label="Enviar"
-            disabled={!text.trim()}
+            disabled={!text.trim() || busy}
             className="tap flex size-12 shrink-0 items-center justify-center rounded-2xl bg-neon text-primary-foreground shadow-neon disabled:opacity-40"
           >
             <Send className="size-5" />
