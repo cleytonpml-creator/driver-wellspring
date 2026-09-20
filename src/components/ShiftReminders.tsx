@@ -67,16 +67,15 @@ export function ShiftReminders() {
     const elapsed = Date.now() - last;
     const firstDelay = last && elapsed < INTERVAL_MS ? INTERVAL_MS - elapsed : FIRST_MS;
 
+    let interval: ReturnType<typeof setInterval> | null = null;
     const t = setTimeout(() => {
       fire();
-      const i = setInterval(fire, INTERVAL_MS);
-      timerRef.current = i;
+      interval = setInterval(fire, INTERVAL_MS);
     }, firstDelay);
 
-    const timerRef: { current: ReturnType<typeof setInterval> | null } = { current: null };
     return () => {
       clearTimeout(t);
-      if (timerRef.current) clearInterval(timerRef.current);
+      if (interval) clearInterval(interval);
     };
   }, [nameRef]);
 
