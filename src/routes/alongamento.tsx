@@ -2,12 +2,28 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Armchair, CheckCircle2, Dumbbell, Footprints, Pause, Play, RotateCcw, Timer, type LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import imgPelvica from "@/assets/ex/pelvica.jpg";
+import imgTorcao from "@/assets/ex/torcao.jpg";
+import imgGatoVaca from "@/assets/ex/gatovaca.jpg";
+import imgFlexao from "@/assets/ex/flexao.jpg";
+import imgPeito from "@/assets/ex/peito.jpg";
+import imgRotacao from "@/assets/ex/rotacao.jpg";
+import imgTrapezio from "@/assets/ex/trapezio.jpg";
+import imgCruzado from "@/assets/ex/cruzado.jpg";
+import imgTriceps from "@/assets/ex/triceps.jpg";
+import imgPunhos from "@/assets/ex/punhos.jpg";
+import imgQuadriceps from "@/assets/ex/quadriceps.jpg";
+import imgPanturrilha from "@/assets/ex/panturrilha.jpg";
+import imgPosterior from "@/assets/ex/posterior.jpg";
+import imgAgachamento from "@/assets/ex/agachamento.jpg";
+import imgElevacao from "@/assets/ex/elevacao.jpg";
+import imgBalanco from "@/assets/ex/balanco.jpg";
 
 export const Route = createFileRoute("/alongamento")({
   head: () => ({
     meta: [
       { title: "Alongamento e Mobilidade — DriverPulse" },
-      { name: "description", content: "Rotinas de 3 a 5 minutos para lombar, ombros e pernas, com cronômetro integrado." },
+      { name: "description", content: "Rotinas de 3 a 5 minutos para lombar, ombros e pernas, com ilustrações e cronômetro integrado." },
       { property: "og:title", content: "Alongamento e Mobilidade — DriverPulse" },
       { property: "og:description", content: "Alívio rápido para o corpo de quem dirige e carrega o dia todo." },
     ],
@@ -15,7 +31,7 @@ export const Route = createFileRoute("/alongamento")({
   component: Alongamento,
 });
 
-type Ex = { name: string; secs: number; steps: string[]; emoji: string };
+type Ex = { name: string; secs: number; steps: string[]; img: string };
 type Cat = { id: string; label: string; short: string; icon: LucideIcon; total: string; exs: Ex[] };
 
 const cats: Cat[] = [
@@ -26,25 +42,25 @@ const cats: Cat[] = [
     icon: Armchair,
     total: "4 min",
     exs: [
-      { name: "Inclinação pélvica sentado", secs: 45, emoji: "🪑", steps: ["Sente ereto, pés no chão", "Arqueie e arredonde a lombar devagar", "Respire fundo a cada movimento"] },
-      { name: "Torção de tronco", secs: 40, emoji: "🔄", steps: ["Mão no encosto do banco", "Gire o tronco para o lado", "Troque de lado na metade"] },
-      { name: "Gato-vaca em pé", secs: 45, emoji: "🐈", steps: ["Mãos apoiadas na van", "Arqueie as costas, olhe para cima", "Arredonde, queixo no peito"] },
-      { name: "Flexão à frente", secs: 40, emoji: "🙇", steps: ["Pés na largura do quadril", "Solte o tronco para baixo", "Deixe a cabeça pesada e relaxe"] },
-      { name: "Abertura de peito", secs: 30, emoji: "🌅", steps: ["Mãos entrelaçadas atrás", "Abra o peito e olhe à frente", "Ombros para trás e para baixo"] },
+      { name: "Inclinação pélvica sentado", secs: 45, img: imgPelvica, steps: ["Sente ereto, pés no chão", "Arqueie e arredonde a lombar devagar", "Respire fundo a cada movimento"] },
+      { name: "Torção de tronco", secs: 40, img: imgTorcao, steps: ["Mão no encosto do banco", "Gire o tronco para o lado", "Troque de lado na metade"] },
+      { name: "Gato-vaca em pé", secs: 45, img: imgGatoVaca, steps: ["Mãos apoiadas na van", "Arqueie as costas, olhe para cima", "Arredonde, queixo no peito"] },
+      { name: "Flexão à frente", secs: 40, img: imgFlexao, steps: ["Pés na largura do quadril", "Solte o tronco para baixo", "Deixe a cabeça pesada e relaxe"] },
+      { name: "Abertura de peito", secs: 30, img: imgPeito, steps: ["Mãos entrelaçadas atrás", "Abra o peito e olhe à frente", "Ombros para trás e para baixo"] },
     ],
   },
   {
     id: "ombros",
-    label: "Ombros, Braços e Trapézio",
+    label: "Pescoço, Ombros e Braços",
     short: "Ombros",
     icon: Dumbbell,
     total: "3 min",
     exs: [
-      { name: "Rotação de ombros", secs: 30, emoji: "🌀", steps: ["Circule os ombros para trás", "Movimentos grandes e lentos", "Inverta o sentido na metade"] },
-      { name: "Alongamento de trapézio", secs: 40, emoji: "🧘", steps: ["Incline a cabeça para o lado", "Mão puxando levemente", "Troque de lado em 20s"] },
-      { name: "Cruzado de braço", secs: 40, emoji: "🤗", steps: ["Braço cruzado no peito", "Puxe com o outro braço", "Troque de lado em 20s"] },
-      { name: "Tríceps acima da cabeça", secs: 40, emoji: "💪", steps: ["Cotovelo apontando para cima", "Mão desce pelas costas", "Troque de lado em 20s"] },
-      { name: "Chacoalhar mãos e punhos", secs: 30, emoji: "👋", steps: ["Solte punhos e dedos", "Abra e feche as mãos", "Alivia o aperto no volante"] },
+      { name: "Rotação de ombros", secs: 30, img: imgRotacao, steps: ["Circule os ombros para trás", "Movimentos grandes e lentos", "Inverta o sentido na metade"] },
+      { name: "Pescoço e trapézio", secs: 40, img: imgTrapezio, steps: ["Incline a cabeça para o lado", "Mão puxando levemente", "Troque de lado em 20s"] },
+      { name: "Cruzado de braço", secs: 40, img: imgCruzado, steps: ["Braço cruzado no peito", "Puxe com o outro braço", "Troque de lado em 20s"] },
+      { name: "Tríceps acima da cabeça", secs: 40, img: imgTriceps, steps: ["Cotovelo apontando para cima", "Mão desce pelas costas", "Troque de lado em 20s"] },
+      { name: "Punhos e mãos", secs: 30, img: imgPunhos, steps: ["Solte punhos e dedos", "Abra e feche as mãos", "Alivia o aperto no volante"] },
     ],
   },
   {
@@ -54,12 +70,12 @@ const cats: Cat[] = [
     icon: Footprints,
     total: "5 min",
     exs: [
-      { name: "Quadríceps em pé", secs: 50, emoji: "🦵", steps: ["Apoie na van", "Puxe o calcanhar até o glúteo", "Troque de lado em 25s"] },
-      { name: "Panturrilha na parede", secs: 50, emoji: "🧱", steps: ["Perna de trás esticada", "Calcanhar no chão", "Troque de lado em 25s"] },
-      { name: "Posterior de coxa", secs: 50, emoji: "📐", steps: ["Pé no estribo da van", "Tronco inclinado à frente", "Troque de lado em 25s"] },
-      { name: "Agachamento leve", secs: 40, emoji: "⬇️", steps: ["Pés afastados", "Desça devagar até onde der", "Joelhos alinhados aos pés"] },
-      { name: "Elevação de panturrilha", secs: 40, emoji: "⬆️", steps: ["Suba nas pontas dos pés", "Segure 2 segundos", "Desça controlado"] },
-      { name: "Balanço de perna", secs: 40, emoji: "🦿", steps: ["Segure na porta", "Balance a perna à frente e atrás", "Troque de lado em 20s"] },
+      { name: "Quadríceps em pé", secs: 50, img: imgQuadriceps, steps: ["Apoie na van", "Puxe o calcanhar até o glúteo", "Troque de lado em 25s"] },
+      { name: "Panturrilha na parede", secs: 50, img: imgPanturrilha, steps: ["Perna de trás esticada", "Calcanhar no chão", "Troque de lado em 25s"] },
+      { name: "Posterior de coxa", secs: 50, img: imgPosterior, steps: ["Pé no estribo da van", "Tronco inclinado à frente", "Troque de lado em 25s"] },
+      { name: "Agachamento leve", secs: 40, img: imgAgachamento, steps: ["Pés afastados", "Desça devagar até onde der", "Joelhos alinhados aos pés"] },
+      { name: "Elevação de panturrilha", secs: 40, img: imgElevacao, steps: ["Suba nas pontas dos pés", "Segure 2 segundos", "Desça controlado"] },
+      { name: "Balanço de perna", secs: 40, img: imgBalanco, steps: ["Segure na porta", "Balance a perna à frente e atrás", "Troque de lado em 20s"] },
     ],
   },
 ];
@@ -130,10 +146,30 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
   return (
     <div
       style={{ animationDelay: `${index * 60}ms` }}
-      className={`glass rounded-3xl p-4 animate-rise transition-all ${running ? "neon-border shadow-electric" : ""} ${done ? "opacity-70" : ""}`}
+      className={`glass flex flex-col overflow-hidden rounded-3xl animate-rise transition-all ${running ? "neon-border shadow-electric" : ""} ${done ? "opacity-80" : ""}`}
     >
-      <div onClick={() => setOpen((o) => !o)} className="flex w-full cursor-pointer items-center gap-4 text-left">
-        <div className="relative flex size-[76px] shrink-0 items-center justify-center">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface">
+        <img
+          src={ex.img}
+          alt={`Ilustração do exercício ${ex.name}`}
+          loading="lazy"
+          width={816}
+          height={816}
+          className="size-full object-cover"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-surface to-transparent" />
+        <span className="absolute left-3 top-3 rounded-full bg-background/70 px-3 py-1 text-xs font-bold text-neon backdrop-blur">
+          Segure por {ex.secs}s
+        </span>
+        {done && (
+          <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-mint/15 px-3 py-1 text-xs font-bold text-mint backdrop-blur">
+            <CheckCircle2 className="size-4" /> Feito
+          </span>
+        )}
+      </div>
+
+      <div className="flex items-center gap-4 p-4">
+        <div className="relative flex size-[68px] shrink-0 items-center justify-center">
           <svg viewBox="0 0 76 76" className="absolute inset-0 -rotate-90">
             <circle cx="38" cy="38" r={r} className="fill-none stroke-secondary" strokeWidth="5" />
             <circle
@@ -143,24 +179,29 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
               strokeDasharray={c} strokeDashoffset={c - (c * pct) / 100}
             />
           </svg>
-          <span className="text-2xl">{done ? <CheckCircle2 className="size-8 text-mint" /> : ex.emoji}</span>
+          <span className={`font-display text-lg font-bold tabular-nums ${running ? "text-electric" : "text-muted-foreground"}`}>
+            {fmt(left)}
+          </span>
         </div>
         <div className="min-w-0 flex-1">
           <h3 className="font-bold leading-tight">{ex.name}</h3>
-          <p className={`mt-1 font-display text-2xl font-bold tabular-nums ${running ? "text-electric" : "text-muted-foreground"}`}>
-            {fmt(left)}
-          </p>
+          <button
+            onClick={() => setOpen((o) => !o)}
+            className="mt-1 text-xs font-semibold text-neon"
+          >
+            {open ? "Ocultar passo a passo" : "Ver passo a passo"}
+          </button>
         </div>
         <div className="flex gap-2">
           <button
-            onClick={(e) => { e.stopPropagation(); toggle(); }}
+            onClick={toggle}
             aria-label={running ? "Pausar" : "Iniciar"}
             className={`tap flex size-14 items-center justify-center rounded-2xl ${running ? "bg-secondary text-foreground" : "bg-electric text-accent-foreground shadow-electric"}`}
           >
             {running ? <Pause className="size-6" /> : <Play className="size-6 translate-x-0.5" fill="currentColor" />}
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); setRunning(false); setLeft(ex.secs); window.speechSynthesis?.cancel(); }}
+            onClick={() => { setRunning(false); setLeft(ex.secs); window.speechSynthesis?.cancel(); }}
             aria-label="Reiniciar"
             className="tap flex size-14 items-center justify-center rounded-2xl bg-secondary text-muted-foreground"
           >
@@ -168,8 +209,9 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
           </button>
         </div>
       </div>
+
       {(open || running) && (
-        <ol className="mt-4 space-y-2 border-t border-border pt-3 animate-rise">
+        <ol className="space-y-2 border-t border-border px-4 pb-4 pt-3 animate-rise">
           {ex.steps.map((s, i) => (
             <li key={s} className="flex items-start gap-3 text-sm">
               <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-electric/15 text-xs font-bold text-electric">{i + 1}</span>
@@ -219,7 +261,7 @@ function Alongamento() {
         </div>
       </div>
 
-      <div className="mt-4 flex flex-col gap-3">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {cat.exs.map((ex, i) => {
           const key = `${cat.id}-${ex.name}`;
           return (

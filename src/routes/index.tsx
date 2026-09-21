@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, Apple, ChevronRight, HeartHandshake, Zap } from "lucide-react";
+import { Activity, Apple, ChevronRight, HeartHandshake, Pencil, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
+import { NamePrompt } from "@/components/NamePrompt";
+import { useDriverName } from "@/hooks/useDriverName";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -61,6 +63,8 @@ const cards = [
 function Index() {
   const [hour, setHour] = useState(9);
   const [time, setTime] = useState("");
+  const { name } = useDriverName();
+  const [editName, setEditName] = useState(false);
   useEffect(() => {
     const tick = () => {
       const d = new Date();
@@ -75,6 +79,7 @@ function Index() {
 
   return (
     <div className="relative mx-auto flex min-h-screen w-full max-w-2xl flex-col px-4 pb-10 pt-5 sm:px-6">
+      <NamePrompt forceOpen={editName} onClose={() => setEditName(false)} />
       <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-80" />
 
       <header className="relative z-10 flex items-center justify-between animate-rise">
@@ -97,7 +102,18 @@ function Index() {
       </header>
 
       <section className="relative z-10 mt-10 animate-rise [animation-delay:80ms]">
-        <p className="text-sm font-medium text-muted-foreground">{g.hi}, motorista 👋</p>
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium text-muted-foreground">
+            {g.hi}, {name ?? "motorista"} 👋
+          </p>
+          <button
+            onClick={() => setEditName(true)}
+            aria-label="Alterar meu nome"
+            className="tap flex size-7 items-center justify-center rounded-full bg-secondary text-neon"
+          >
+            <Pencil className="size-3.5" />
+          </button>
+        </div>
         <h1 className="mt-1 text-3xl font-bold leading-tight sm:text-4xl">{g.msg}</h1>
       </section>
 
