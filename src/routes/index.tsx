@@ -63,6 +63,8 @@ const cards = [
 function Index() {
   const [hour, setHour] = useState(9);
   const [time, setTime] = useState("");
+  const { name } = useDriverName();
+  const [editName, setEditName] = useState(false);
   useEffect(() => {
     const tick = () => {
       const d = new Date();
@@ -77,6 +79,7 @@ function Index() {
 
   return (
     <div className="relative mx-auto flex min-h-screen w-full max-w-2xl flex-col px-4 pb-10 pt-5 sm:px-6">
+      <NamePrompt forceOpen={editName} onClose={() => setEditName(false)} />
       <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-80" />
 
       <header className="relative z-10 flex items-center justify-between animate-rise">
