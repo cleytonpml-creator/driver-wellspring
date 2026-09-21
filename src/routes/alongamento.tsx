@@ -146,10 +146,30 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
   return (
     <div
       style={{ animationDelay: `${index * 60}ms` }}
-      className={`glass rounded-3xl p-4 animate-rise transition-all ${running ? "neon-border shadow-electric" : ""} ${done ? "opacity-70" : ""}`}
+      className={`glass flex flex-col overflow-hidden rounded-3xl animate-rise transition-all ${running ? "neon-border shadow-electric" : ""} ${done ? "opacity-80" : ""}`}
     >
-      <div onClick={() => setOpen((o) => !o)} className="flex w-full cursor-pointer items-center gap-4 text-left">
-        <div className="relative flex size-[76px] shrink-0 items-center justify-center">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface">
+        <img
+          src={ex.img}
+          alt={`Ilustração do exercício ${ex.name}`}
+          loading="lazy"
+          width={816}
+          height={816}
+          className="size-full object-cover"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-surface to-transparent" />
+        <span className="absolute left-3 top-3 rounded-full bg-background/70 px-3 py-1 text-xs font-bold text-neon backdrop-blur">
+          Segure por {ex.secs}s
+        </span>
+        {done && (
+          <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-mint/15 px-3 py-1 text-xs font-bold text-mint backdrop-blur">
+            <CheckCircle2 className="size-4" /> Feito
+          </span>
+        )}
+      </div>
+
+      <div className="flex items-center gap-4 p-4">
+        <div className="relative flex size-[68px] shrink-0 items-center justify-center">
           <svg viewBox="0 0 76 76" className="absolute inset-0 -rotate-90">
             <circle cx="38" cy="38" r={r} className="fill-none stroke-secondary" strokeWidth="5" />
             <circle
@@ -159,24 +179,29 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
               strokeDasharray={c} strokeDashoffset={c - (c * pct) / 100}
             />
           </svg>
-          <span className="text-2xl">{done ? <CheckCircle2 className="size-8 text-mint" /> : ex.emoji}</span>
+          <span className={`font-display text-lg font-bold tabular-nums ${running ? "text-electric" : "text-muted-foreground"}`}>
+            {fmt(left)}
+          </span>
         </div>
         <div className="min-w-0 flex-1">
           <h3 className="font-bold leading-tight">{ex.name}</h3>
-          <p className={`mt-1 font-display text-2xl font-bold tabular-nums ${running ? "text-electric" : "text-muted-foreground"}`}>
-            {fmt(left)}
-          </p>
+          <button
+            onClick={() => setOpen((o) => !o)}
+            className="mt-1 text-xs font-semibold text-neon"
+          >
+            {open ? "Ocultar passo a passo" : "Ver passo a passo"}
+          </button>
         </div>
         <div className="flex gap-2">
           <button
-            onClick={(e) => { e.stopPropagation(); toggle(); }}
+            onClick={toggle}
             aria-label={running ? "Pausar" : "Iniciar"}
             className={`tap flex size-14 items-center justify-center rounded-2xl ${running ? "bg-secondary text-foreground" : "bg-electric text-accent-foreground shadow-electric"}`}
           >
             {running ? <Pause className="size-6" /> : <Play className="size-6 translate-x-0.5" fill="currentColor" />}
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); setRunning(false); setLeft(ex.secs); window.speechSynthesis?.cancel(); }}
+            onClick={() => { setRunning(false); setLeft(ex.secs); window.speechSynthesis?.cancel(); }}
             aria-label="Reiniciar"
             className="tap flex size-14 items-center justify-center rounded-2xl bg-secondary text-muted-foreground"
           >
@@ -184,8 +209,9 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
           </button>
         </div>
       </div>
+
       {(open || running) && (
-        <ol className="mt-4 space-y-2 border-t border-border pt-3 animate-rise">
+        <ol className="space-y-2 border-t border-border px-4 pb-4 pt-3 animate-rise">
           {ex.steps.map((s, i) => (
             <li key={s} className="flex items-start gap-3 text-sm">
               <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-electric/15 text-xs font-bold text-electric">{i + 1}</span>
