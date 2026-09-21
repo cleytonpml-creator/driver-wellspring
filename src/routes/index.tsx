@@ -102,7 +102,18 @@ function Index() {
       </header>
 
       <section className="relative z-10 mt-10 animate-rise [animation-delay:80ms]">
-        <p className="text-sm font-medium text-muted-foreground">{g.hi}, motorista 👋</p>
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-medium text-muted-foreground">
+            {g.hi}, {name ?? "motorista"} 👋
+          </p>
+          <button
+            onClick={() => setEditName(true)}
+            aria-label="Alterar meu nome"
+            className="tap flex size-7 items-center justify-center rounded-full bg-secondary text-neon"
+          >
+            <Pencil className="size-3.5" />
+          </button>
+        </div>
         <h1 className="mt-1 text-3xl font-bold leading-tight sm:text-4xl">{g.msg}</h1>
       </section>
 
