@@ -60,19 +60,14 @@ export const Route = createFileRoute("/api/chat")({
           return new Response(msg, { status: status === 429 || status === 402 ? status : 500 });
         }
 
-        const reader = upstream.body.getReader();
+        console.log("[chat] upstream ok, streaming");
         const decoder = new TextDecoder();
         const encoder = new TextEncoder();
         let buffer = "";
 
-        const stream = new ReadableStream<Uint8Array>({
-          async pull(controller) {
-            const { done, value } = await reader.read();
-            if (done) {
-              controller.close();
-              return;
-            }
-            buffer += decoder.decode(value, { stream: true });
+        const transform = new TransformStream<Uint8Array, Uint8Array>({
+          transform(chunk, controller) {
+            buffer += decoder.decode(chunk, { stream: true });
             const lines = buffer.split("\n");
             buffer = lines.pop() ?? "";
             for (const line of lines) {
@@ -89,15 +84,13 @@ export const Route = createFileRoute("/api/chat")({
               }
             }
           },
-          cancel(reason) {
-            return reader.cancel(reason);
-          },
         });
 
-        return new Response(stream, {
+        return new Response(upstream.body.pipeThrough(transform), {
           headers: {
             "Content-Type": "text/plain; charset=utf-8",
             "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
           },
         });
       },
