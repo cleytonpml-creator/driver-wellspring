@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Activity, Apple, ChevronRight, HeartHandshake, Zap } from "lucide-react";
+import { Activity, Apple, ChevronRight, HeartHandshake, Pencil, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
+import { NamePrompt } from "@/components/NamePrompt";
+import { useDriverName } from "@/hooks/useDriverName";
 
 export const Route = createFileRoute("/")({
   head: () => ({

@@ -261,7 +261,7 @@ function Alongamento() {
         </div>
       </div>
 
-      <div className="mt-4 flex flex-col gap-3">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {cat.exs.map((ex, i) => {
           const key = `${cat.id}-${ex.name}`;
           return (
