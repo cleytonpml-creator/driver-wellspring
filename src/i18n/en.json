@@ -1,0 +1,192 @@
+{
+  "common": { "back": "Back to home", "language": "Language", "you": "you" },
+  "home": {
+    "tagline": "Health on the road",
+    "online": "Online",
+    "driver": "driver",
+    "editName": "Change my name",
+    "g": {
+      "dawn": { "hi": "Good night", "msg": "Night routes need double attention. You're doing great." },
+      "morning": { "hi": "Good morning", "msg": "Take a deep breath. Every delivery is one step. Easy does it." },
+      "afternoon": { "hi": "Good afternoon", "msg": "Halfway there. Drink some water and fix your posture." },
+      "night": { "hi": "Good evening", "msg": "You made it through the whole day. Time to take care of yourself." }
+    },
+    "lift": { "title": "How to Lift Heavy Boxes", "desc": "16 techniques to protect your spine" },
+    "home": { "title": "I'm Home Now", "desc": "Relax and chat after your shift" },
+    "cards": {
+      "apoio": { "title": "How Are You Today?", "desc": "Support & venting with empathetic AI" },
+      "alongamento": { "title": "Stretching & Mobility", "desc": "Body relief in 3 to 5 minutes" },
+      "nutricao": { "title": "Nutrition on the Road", "desc": "Snacks, meal prep & AI tips" }
+    },
+    "footer": "Made for those who carry the day on their backs. Drive safe."
+  },
+  "name": {
+    "title": "What would you like to be called?",
+    "desc": "That way I can call you by name in reminders and support chat.",
+    "placeholder": "e.g. Cleyton",
+    "cancel": "Cancel",
+    "save": "Save and start"
+  },
+  "reminders": {
+    "action": "Stretch",
+    "dawn": ["{{name}}, night routes need breaks. Stop somewhere safe and stretch your neck for 30s.", "Cold water helps you stay alert, {{name}}. Take a few sips now.", "Feeling sleepy? 15 minutes parked beats 1 risky hour, {{name}}."],
+    "morning": ["Have a good workday, {{name}}! How about loosening your shoulders before the next delivery?", "Hydration time, {{name}}. Half a glass now prevents the afternoon headache.", "Break time, {{name}}! Get up and do a quick lower-back stretch."],
+    "afternoon": ["Break time, {{name}}! How about getting up for a quick stretch?", "{{name}}, heat dehydrates fast. Drink before you feel thirsty.", "Posture check, {{name}}: back supported, shoulders low, light hands on the wheel."],
+    "night": ["Long day, {{name}}. Take 3 deep breaths before moving on.", "Last water of the shift, {{name}}. Your body will thank you tomorrow.", "5-minute break, {{name}}? Your legs and knees need to move."]
+  },
+  "apoio": {
+    "title": "How Are You Today?",
+    "subtitle": "Empathetic AI · always available",
+    "intro": "Hi{{name}}! I'm your on-board support. Write whatever you want, however it comes — fatigue, stress, back pain, anxiety. I'm here.",
+    "talkingTo": "Talking to {{name}}",
+    "changeName": "Change name",
+    "sayName": "Tell my name",
+    "breathOpen": "Guided breathing",
+    "breathClose": "Close breathing",
+    "breathLabel": "Guided breathing 4-4-6",
+    "phases": ["Inhale · 4s", "Hold · 4s", "Release · 6s"],
+    "quick": ["I'm exhausted", "Traffic stressed me out", "Anxious about deadlines", "I just want to vent"],
+    "thinking": "thinking with care…",
+    "placeholder": "Type or say whatever you want…",
+    "listening": "Listening…",
+    "mic": "Speak",
+    "send": "Send",
+    "noMic": "Your browser doesn't support voice dictation. You can type your message.",
+    "noConn": "No connection right now. Try again when the signal is back.",
+    "error": "I couldn't reply right now. Please try again.",
+    "fallback": "I'm here with you. Can you tell me a bit more?"
+  },
+  "stretch": {
+    "title": "Stretching & Mobility",
+    "subtitle": "Quick routines · 3 to 5 min",
+    "cats": {
+      "lombar": { "label": "Lower Back & Posture", "short": "Lower back" },
+      "ombros": { "label": "Neck, Shoulders & Arms", "short": "Shoulders" },
+      "pernas": { "label": "Legs & Knees", "short": "Legs" }
+    },
+    "count": "{{n}} exercises · tap to see the steps",
+    "hold": "Hold for {{s}}s",
+    "done": "Done",
+    "show": "Show steps",
+    "hide": "Hide steps",
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "alt": "Illustration of {{name}}",
+    "vStart": "Let's go!",
+    "vLast": "Last ten seconds.",
+    "vDone": "Well done! Exercise complete.",
+    "ex": {
+      "pelvica": { "name": "Seated pelvic tilt", "steps": ["Sit upright, feet on the floor", "Slowly arch and round your lower back", "Breathe deeply with each move"] },
+      "torcao": { "name": "Torso twist", "steps": ["Hand on the seat back", "Rotate your torso to the side", "Switch sides halfway"] },
+      "gatovaca": { "name": "Standing cat-cow", "steps": ["Hands resting on the van", "Arch your back, look up", "Round it, chin to chest"] },
+      "flexao": { "name": "Forward fold", "steps": ["Feet hip-width apart", "Let your torso hang down", "Let your head feel heavy and relax"] },
+      "peito": { "name": "Chest opener", "steps": ["Hands clasped behind you", "Open your chest and look ahead", "Shoulders back and down"] },
+      "rotacao": { "name": "Shoulder rolls", "steps": ["Roll shoulders backwards", "Big, slow movements", "Reverse direction halfway"] },
+      "trapezio": { "name": "Neck & trapezius", "steps": ["Tilt your head to the side", "Hand pulling gently", "Switch sides at 20s"] },
+      "cruzado": { "name": "Cross-body arm", "steps": ["Arm across your chest", "Pull with the other arm", "Switch sides at 20s"] },
+      "triceps": { "name": "Overhead triceps", "steps": ["Elbow pointing up", "Hand slides down your back", "Switch sides at 20s"] },
+      "punhos": { "name": "Wrists & hands", "steps": ["Loosen wrists and fingers", "Open and close your hands", "Relieves steering wheel grip"] },
+      "quadriceps": { "name": "Standing quad stretch", "steps": ["Lean on the van", "Pull your heel to your glutes", "Switch sides at 25s"] },
+      "panturrilha": { "name": "Wall calf stretch", "steps": ["Back leg straight", "Heel on the ground", "Switch sides at 25s"] },
+      "posterior": { "name": "Hamstring stretch", "steps": ["Foot on the van step", "Torso leaning forward", "Switch sides at 25s"] },
+      "agachamento": { "name": "Light squat", "steps": ["Feet apart", "Lower slowly as far as you can", "Knees aligned with feet"] },
+      "elevacao": { "name": "Calf raises", "steps": ["Rise onto your toes", "Hold 2 seconds", "Lower with control"] },
+      "balanco": { "name": "Leg swings", "steps": ["Hold the door", "Swing the leg forward and back", "Switch sides at 20s"] }
+    }
+  },
+  "nutri": {
+    "title": "Nutrition on the Road",
+    "subtitle": "Diet & meal prep for drivers",
+    "tabs": ["Snacks", "Meal prep", "AI Tips"],
+    "snacksIntro": "Snacks that survive heat and hours in the van.",
+    "snacks": [
+      { "name": "Mixed nuts", "tip": "Lasts weeks in the glovebox. A handful = energy without a sugar spike.", "tag": "Energy" },
+      { "name": "Banana + peanut butter", "tip": "Potassium against cramps. Bring single sachets.", "tag": "Cramps" },
+      { "name": "Baby carrots & cucumber", "tip": "In a lidded box. Crunchy, hydrating and mess-free.", "tag": "Hydrates" },
+      { "name": "Apple", "tip": "Doesn't bruise or spoil. Fiber that keeps you full.", "tag": "Fullness" },
+      { "name": "Boiled eggs", "tip": "Boil 6 on Sunday. Cheap, practical protein.", "tag": "Protein" },
+      { "name": "Homemade oat bar", "tip": "Oats, honey and banana in the oven. No preservatives.", "tag": "Energy" },
+      { "name": "Cheese cubes + wholegrain toast", "tip": "In a small cooler bag. Great mid-afternoon.", "tag": "Protein" }
+    ],
+    "weekIntro": "Prep on Sunday, eat well all week.",
+    "week": [
+      { "day": "Mon", "dish": "Grilled chicken + brown rice + broccoli", "prep": "Grill 1kg of breast at once" },
+      { "day": "Tue", "dish": "Ground beef with veggies + sweet potato", "prep": "Sauté with carrot and zucchini" },
+      { "day": "Wed", "dish": "Baked omelette + chickpea salad", "prep": "Bakes in 20 min, makes 4 portions" },
+      { "day": "Thu", "dish": "Baked fish + mashed root veg", "prep": "Tilapia with lemon and herbs" },
+      { "day": "Fri", "dish": "Light stroganoff + rice + salad", "prep": "Yogurt instead of cream" },
+      { "day": "Sat", "dish": "Wholewheat pasta with chicken and tomato sauce", "prep": "Batch-cook the sauce" },
+      { "day": "Sun", "dish": "Prep day: cook the week's grains and proteins", "prep": "2 hours that save the week" }
+    ],
+    "iaTitle": "Tell me where you are or what you have",
+    "placeholder": "e.g. I'm at a highway gas station…",
+    "ask": "Get suggestion",
+    "chips": ["Highway gas station", "Bakery", "Fast food", "I have rice and eggs"],
+    "analyzing": "analyzing options…",
+    "hydration": "Hydration: ",
+    "r": {
+      "posto": { "title": "At the gas station", "items": ["Small cheese bread + unsweetened coffee", "Coconut water or mineral water (skip soda)", "Banana or apple from the shelf", "If there's a buffet: rice, beans, grilled protein and salad"], "hydration": "Buy 1.5L of water now. Goal: one sip at every traffic light." },
+      "padaria": { "title": "At the bakery", "items": ["Wholegrain bread with scrambled eggs", "Plain yogurt with granola", "Fresh juice with no sugar", "Skip fried pastries — they weigh you down while driving"], "hydration": "Ask for a glass of water with your coffee. Coffee doesn't count as hydration." },
+      "lanchonete": { "title": "At the fast food place", "items": ["Grilled chicken sandwich, no mayo", "Swap fries for salad or corn", "Water or fresh juice instead of soda", "Eat slowly: 15 min parked beats eating while driving"], "hydration": "Soda dehydrates. Ask for water with lemon." },
+      "maos": { "title": "With what you have", "items": ["Build a plate: {{input}} + a fiber source (salad or fruit)", "Protein first, carbs later: less post-lunch sleepiness", "Carb portion the size of your closed fist", "Save half if you're too full — it's your 4pm snack"], "hydration": "Drink a glass of water before eating. It helps with fullness." },
+      "default": { "title": "Smart choice for right now", "items": ["Prioritize: lean protein + veggies + whole carbs", "Avoid fried food and sugar before long drives", "If there's only a corner store: yogurt, fruit, nuts and water", "Eat every 3–4h to stay alert at the wheel"], "hydration": "Daily goal: 2 to 3 liters. Keep a bottle visible on the dashboard." }
+    }
+  },
+  "lift": {
+    "title": "How to Lift Heavy Boxes",
+    "subtitle": "16 essential ergonomic techniques",
+    "tabs": ["On the Floor", "Moving & In the Van", "Unloading & Prevention"],
+    "tabsLong": ["Lift safely", "Move and load the van", "Set the load down and prevent injuries"],
+    "tips": [
+      { "t": "Test first", "d": "Gently push the box with your foot or hand to test the weight before pulling." },
+      { "t": "Solid base", "d": "Feet shoulder-width apart with one foot slightly forward for balance." },
+      { "t": "Biomechanical squat", "d": "Bend your knees and hips. Never round your lower back." },
+      { "t": "Load close to the body", "d": "Hold the package against your belly/chest; holding it away multiplies the force on your spine." },
+      { "t": "Anatomical grip", "d": "Fit your palms on the lower diagonal corners of the box (not just fingertips)." },
+      { "t": "Drive with your legs", "d": "Lift by pushing the floor with your thighs and glutes, breathing out as you rise." },
+      { "t": "No twisting", "d": "Never twist your spine while holding weight; turn your body by moving your feet." },
+      { "t": "Eyes on the horizon", "d": "Keep chin and chest up while walking with the load." },
+      { "t": "Getting into the van", "d": "Always climb using 3 points of contact; never jump with boxes in your arms." },
+      { "t": "Edge support", "d": "For deep compartments, rest the box edge on the sill/shelf and slide it in." },
+      { "t": "Ergonomic height", "d": "Keep heavy items stored between thigh and chest height in the van." },
+      { "t": "Loads up high", "d": "When taking boxes from above shoulder height, get close and never arch your back." },
+      { "t": "Mirror the lift", "d": "Reverse the movement to set the load down: bend your legs and lower with a straight torso." },
+      { "t": "Awkward items", "d": "Use the box corners as leverage and bend your knees wider." },
+      { "t": "Watch your feet", "d": "Be careful not to drop heavy boxes on your toes or trip on loose cables." },
+      { "t": "Golden rule of limits", "d": "If the weight makes you compensate with your neck or spine, stop, use a trolley or ask for help." }
+    ]
+  },
+  "casa": {
+    "title": "I'm Home Now",
+    "subtitle": "Shift over · time for you",
+    "hello": "Glad you made it home, {{name}}! What do your body and mind need now?",
+    "relax": { "title": "Relaxation Exercises", "desc": "Guided breathing and after-work stretches" },
+    "talk": { "title": "Talk to Me", "desc": "A buddy to chat and laugh with" },
+    "breath": {
+      "title": "Box Breathing",
+      "desc": "Follow the circle. 4 seconds per phase.",
+      "phases": ["Inhale", "Hold", "Exhale", "Hold"],
+      "ready": "Ready?",
+      "start": "Start",
+      "pause": "Pause",
+      "reset": "Reset",
+      "cycles": "Cycles: {{n}}"
+    },
+    "postTitle": "After-work stretches",
+    "post": [
+      { "name": "Lower Back Release", "pose": "Child's Pose", "dur": "1 min", "d": "Kneel on a mat, sit back on your heels and reach your arms forward, forehead down. Breathe slowly." },
+      { "name": "Leg Relief", "pose": "Legs Up the Wall", "dur": "3 min", "d": "Lie with your hips near a wall and stretch your legs up. Helps circulation and reduces swelling." },
+      { "name": "Trapezius & Neck", "pose": "Side tilt", "dur": "1 min", "d": "Tilt your head to the side and let your hand's weight gently pull. 30s each side." },
+      { "name": "Glutes & Sciatic", "pose": "Figure 4", "dur": "2 min", "d": "Seated or lying, cross your ankle over the opposite knee and bring the leg toward your chest." }
+    ]
+  },
+  "talk": {
+    "title": "Talk to Me",
+    "subtitle": "Your after-shift buddy",
+    "placeholder": "Go ahead, I'm listening…",
+    "typing": "typing…",
+    "chips": ["How my day went...", "Tell me a joke", "I need to vent", "I'm totally wrecked today"],
+    "local": "Chat stays 100% on your device"
+  }
+}

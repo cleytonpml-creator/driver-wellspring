@@ -1,0 +1,192 @@
+{
+  "common": { "back": "Volver al inicio", "language": "Idioma", "you": "ti" },
+  "home": {
+    "tagline": "Salud en ruta",
+    "online": "En línea",
+    "driver": "conductor",
+    "editName": "Cambiar mi nombre",
+    "g": {
+      "dawn": { "hi": "Buenas noches", "msg": "La ruta nocturna exige doble atención. Lo estás haciendo bien." },
+      "morning": { "hi": "Buenos días", "msg": "Respira hondo. Cada entrega es un paso. Con calma." },
+      "afternoon": { "hi": "Buenas tardes", "msg": "Mitad del camino hecha. Hidrátate y ajusta la postura." },
+      "night": { "hi": "Buenas noches", "msg": "Aguantaste el día entero. Hora de cuidarte." }
+    },
+    "lift": { "title": "Cómo Levantar Cajas Pesadas", "desc": "16 técnicas para cuidar tu espalda" },
+    "home": { "title": "Ya Estoy en Casa", "desc": "Relajarte y charlar después del turno" },
+    "cards": {
+      "apoio": { "title": "¿Cómo Estás Hoy?", "desc": "Apoyo y desahogo con IA empática" },
+      "alongamento": { "title": "Estiramiento y Movilidad", "desc": "Alivio corporal en 3 a 5 minutos" },
+      "nutricao": { "title": "Nutrición en Ruta", "desc": "Snacks, táperes y sugerencias IA" }
+    },
+    "footer": "Hecho para quienes cargan el día a sus espaldas. Conduce con cuidado."
+  },
+  "name": {
+    "title": "¿Cómo te gustaría que te llamemos?",
+    "desc": "Así te hablo por tu nombre en los recordatorios y en el apoyo a bordo.",
+    "placeholder": "Ej.: Cleyton",
+    "cancel": "Cancelar",
+    "save": "Guardar y empezar"
+  },
+  "reminders": {
+    "action": "Estirar",
+    "dawn": ["{{name}}, la ruta nocturna pide pausa. Para en un lugar seguro y estira el cuello 30s.", "El agua fría ayuda a mantenerte alerta, {{name}}. Toma unos sorbos ahora.", "¿Te da sueño? 15 minutos parado valen más que 1 hora arriesgada, {{name}}."],
+    "morning": ["¡Buen día de trabajo, {{name}}! ¿Qué tal soltar los hombros antes de la próxima entrega?", "Hidratación, {{name}}. Medio vaso de agua ahora evita el dolor de cabeza de la tarde.", "¡Hora de la pausa, {{name}}! Levántate y estira la zona lumbar."],
+    "afternoon": ["¡Hora de la pausa, {{name}}! ¿Qué tal levantarte y estirar un poco?", "{{name}}, el calor deshidrata rápido. Bebe agua antes de tener sed.", "Revisa la postura, {{name}}: espalda apoyada, hombros bajos, manos suaves en el volante."],
+    "night": ["Día largo, {{name}}. Respira hondo 3 veces antes de seguir.", "Última hidratación del turno, {{name}}. Tu cuerpo te lo agradecerá mañana.", "¿Pausa de 5 minutos, {{name}}? Piernas y rodillas piden movimiento."]
+  },
+  "apoio": {
+    "title": "¿Cómo Estás Hoy?",
+    "subtitle": "IA empática · siempre disponible",
+    "intro": "¡Hola{{name}}! Soy tu apoyo a bordo. Escribe lo que quieras, como te salga — cansancio, estrés, dolor de espalda, ansiedad. Aquí estoy.",
+    "talkingTo": "Hablando con {{name}}",
+    "changeName": "Cambiar nombre",
+    "sayName": "Decir mi nombre",
+    "breathOpen": "Respiración guiada",
+    "breathClose": "Cerrar respiración",
+    "breathLabel": "Respiración guiada 4-4-6",
+    "phases": ["Inhala · 4s", "Sostén · 4s", "Suelta · 6s"],
+    "quick": ["Estoy agotado", "El tráfico me estresó", "Ansioso por los plazos", "Solo quiero desahogarme"],
+    "thinking": "pensando con cariño…",
+    "placeholder": "Escribe o di lo que quieras…",
+    "listening": "Escuchando…",
+    "mic": "Hablar",
+    "send": "Enviar",
+    "noMic": "Tu navegador no admite dictado por voz. Puedes escribir tu mensaje.",
+    "noConn": "Sin conexión ahora. Inténtalo cuando vuelva la señal.",
+    "error": "No pude responder ahora. Inténtalo de nuevo.",
+    "fallback": "Estoy aquí contigo. ¿Me cuentas un poco más?"
+  },
+  "stretch": {
+    "title": "Estiramiento y Movilidad",
+    "subtitle": "Rutinas rápidas · 3 a 5 min",
+    "cats": {
+      "lombar": { "label": "Lumbar y Postura", "short": "Lumbar" },
+      "ombros": { "label": "Cuello, Hombros y Brazos", "short": "Hombros" },
+      "pernas": { "label": "Piernas y Rodillas", "short": "Piernas" }
+    },
+    "count": "{{n}} ejercicios · toca para ver el paso a paso",
+    "hold": "Mantén {{s}}s",
+    "done": "Hecho",
+    "show": "Ver paso a paso",
+    "hide": "Ocultar paso a paso",
+    "start": "Iniciar",
+    "pause": "Pausar",
+    "reset": "Reiniciar",
+    "alt": "Ilustración del ejercicio {{name}}",
+    "vStart": "¡Empezamos!",
+    "vLast": "Últimos diez segundos.",
+    "vDone": "¡Muy bien! Ejercicio completado.",
+    "ex": {
+      "pelvica": { "name": "Inclinación pélvica sentado", "steps": ["Siéntate recto, pies en el suelo", "Arquea y redondea la zona lumbar despacio", "Respira hondo en cada movimiento"] },
+      "torcao": { "name": "Torsión de tronco", "steps": ["Mano en el respaldo del asiento", "Gira el tronco hacia un lado", "Cambia de lado a la mitad"] },
+      "gatovaca": { "name": "Gato-vaca de pie", "steps": ["Manos apoyadas en la furgoneta", "Arquea la espalda, mira arriba", "Redondea, barbilla al pecho"] },
+      "flexao": { "name": "Flexión hacia delante", "steps": ["Pies al ancho de la cadera", "Deja caer el tronco", "Cabeza pesada y relajada"] },
+      "peito": { "name": "Apertura de pecho", "steps": ["Manos entrelazadas atrás", "Abre el pecho y mira al frente", "Hombros atrás y abajo"] },
+      "rotacao": { "name": "Rotación de hombros", "steps": ["Gira los hombros hacia atrás", "Movimientos amplios y lentos", "Invierte el sentido a la mitad"] },
+      "trapezio": { "name": "Cuello y trapecio", "steps": ["Inclina la cabeza hacia un lado", "La mano tira suavemente", "Cambia de lado a los 20s"] },
+      "cruzado": { "name": "Brazo cruzado", "steps": ["Brazo cruzado sobre el pecho", "Tira con el otro brazo", "Cambia de lado a los 20s"] },
+      "triceps": { "name": "Tríceps sobre la cabeza", "steps": ["Codo apuntando arriba", "La mano baja por la espalda", "Cambia de lado a los 20s"] },
+      "punhos": { "name": "Muñecas y manos", "steps": ["Suelta muñecas y dedos", "Abre y cierra las manos", "Alivia la presión del volante"] },
+      "quadriceps": { "name": "Cuádriceps de pie", "steps": ["Apóyate en la furgoneta", "Lleva el talón al glúteo", "Cambia de lado a los 25s"] },
+      "panturrilha": { "name": "Gemelos en la pared", "steps": ["Pierna de atrás estirada", "Talón en el suelo", "Cambia de lado a los 25s"] },
+      "posterior": { "name": "Isquiotibiales", "steps": ["Pie en el estribo de la furgoneta", "Tronco inclinado al frente", "Cambia de lado a los 25s"] },
+      "agachamento": { "name": "Sentadilla ligera", "steps": ["Pies separados", "Baja despacio hasta donde puedas", "Rodillas alineadas con los pies"] },
+      "elevacao": { "name": "Elevación de talones", "steps": ["Sube a las puntas de los pies", "Mantén 2 segundos", "Baja con control"] },
+      "balanco": { "name": "Balanceo de pierna", "steps": ["Agárrate a la puerta", "Balancea la pierna adelante y atrás", "Cambia de lado a los 20s"] }
+    }
+  },
+  "nutri": {
+    "title": "Nutrición en Ruta",
+    "subtitle": "Dieta y táperes para repartidores",
+    "tabs": ["Snacks", "Táperes", "IA Sugiere"],
+    "snacksIntro": "Snacks que aguantan calor y horas en la furgoneta.",
+    "snacks": [
+      { "name": "Mix de frutos secos", "tip": "Dura semanas en la guantera. Un puñado = energía sin pico de azúcar.", "tag": "Energía" },
+      { "name": "Plátano + crema de cacahuete", "tip": "Potasio contra calambres. Lleva sobres individuales.", "tag": "Calambres" },
+      { "name": "Zanahorias baby y pepino", "tip": "En táper con tapa. Crujiente, hidrata y no mancha.", "tag": "Hidrata" },
+      { "name": "Manzana", "tip": "No se aplasta ni se estropea. Fibra que quita el hambre.", "tag": "Saciedad" },
+      { "name": "Huevos cocidos", "tip": "Cuece 6 el domingo. Proteína barata y práctica.", "tag": "Proteína" },
+      { "name": "Barrita de avena casera", "tip": "Avena, miel y plátano al horno. Sin conservantes.", "tag": "Energía" },
+      { "name": "Queso en dados + tostada integral", "tip": "En bolsa térmica pequeña. Genial a media tarde.", "tag": "Proteína" }
+    ],
+    "weekIntro": "Prepara el domingo, come bien toda la semana.",
+    "week": [
+      { "day": "Lun", "dish": "Pollo a la plancha + arroz integral + brócoli", "prep": "Haz 1kg de pechuga de una vez" },
+      { "day": "Mar", "dish": "Carne picada con verduras + boniato", "prep": "Sofríe con zanahoria y calabacín" },
+      { "day": "Mié", "dish": "Tortilla al horno + ensalada de garbanzos", "prep": "Se hornea en 20 min, rinde 4 porciones" },
+      { "day": "Jue", "dish": "Pescado al horno + puré de raíces", "prep": "Tilapia con limón y hierbas" },
+      { "day": "Vie", "dish": "Strogonoff ligero + arroz + ensalada", "prep": "Yogur en vez de nata" },
+      { "day": "Sáb", "dish": "Pasta integral con pollo y salsa de tomate", "prep": "Salsa casera en cantidad" },
+      { "day": "Dom", "dish": "Día de preparación: cocina granos y proteínas de la semana", "prep": "2 horas que salvan la semana" }
+    ],
+    "iaTitle": "Dime dónde estás o qué tienes a mano",
+    "placeholder": "Ej.: estoy en una gasolinera en la autopista…",
+    "ask": "Pedir sugerencia",
+    "chips": ["Gasolinera en carretera", "Panadería", "Comida rápida", "Tengo arroz y huevo"],
+    "analyzing": "analizando opciones…",
+    "hydration": "Hidratación: ",
+    "r": {
+      "posto": { "title": "En la gasolinera", "items": ["Pan de queso pequeño + café sin azúcar", "Agua de coco o agua mineral (evita refrescos)", "Plátano o manzana del estante", "Si hay bufé: arroz, frijoles, proteína a la plancha y ensalada"], "hydration": "Compra 1,5L de agua ahora. Meta: un sorbo en cada semáforo." },
+      "padaria": { "title": "En la panadería", "items": ["Pan integral con huevo revuelto", "Yogur natural con granola", "Zumo natural sin azúcar", "Evita fritos — pesan en la digestión al conducir"], "hydration": "Pide un vaso de agua con el café. El café no cuenta como hidratación." },
+      "lanchonete": { "title": "En la comida rápida", "items": ["Sándwich de pollo a la plancha sin mayonesa", "Cambia las patatas fritas por ensalada o maíz", "Agua o zumo natural en vez de refresco", "Come despacio: 15 min parado vale más que comer conduciendo"], "hydration": "El refresco deshidrata. Pide agua con limón." },
+      "maos": { "title": "Con lo que tienes a mano", "items": ["Arma un plato: {{input}} + una fuente de fibra (ensalada o fruta)", "Proteína primero, carbohidrato después: menos sueño tras comer", "Porción de carbohidrato del tamaño de tu puño", "Guarda la mitad si estás lleno — es tu merienda de las 16h"], "hydration": "Bebe un vaso de agua antes de comer. Ayuda a la saciedad." },
+      "default": { "title": "Elección inteligente para ahora", "items": ["Prioriza: proteína magra + verdura + carbohidrato integral", "Evita fritos y azúcar antes de trayectos largos", "Si solo hay una tienda: yogur, fruta, frutos secos y agua", "Come cada 3–4h para mantener la atención al volante"], "hydration": "Meta diaria: 2 a 3 litros. Mantén una botella visible en el salpicadero." }
+    }
+  },
+  "lift": {
+    "title": "Cómo Levantar Cajas Pesadas",
+    "subtitle": "16 técnicas ergonómicas esenciales",
+    "tabs": ["En el Suelo", "Movimiento y en la Furgo", "Descarga y Prevención"],
+    "tabsLong": ["Levantar con seguridad", "Desplazarte y cargar la furgoneta", "Bajar la carga y prevenir lesiones"],
+    "tips": [
+      { "t": "Evaluación previa", "d": "Empuja suavemente la caja con el pie o la mano para probar el peso antes de tirar." },
+      { "t": "Base de apoyo", "d": "Separa los pies al ancho de los hombros con un pie ligeramente adelantado." },
+      { "t": "Sentadilla biomecánica", "d": "Dobla rodillas y caderas. Nunca curves la zona lumbar en arco." },
+      { "t": "Carga pegada al cuerpo", "d": "Sujeta el paquete contra el abdomen/pecho; alejar el peso multiplica la fuerza en la columna." },
+      { "t": "Agarre anatómico", "d": "Encaja las palmas en las diagonales inferiores de la caja (no solo con la punta de los dedos)." },
+      { "t": "Impulso con las piernas", "d": "Levanta empujando el suelo con muslos y glúteos, soltando el aire al subir." },
+      { "t": "Prohibido girar el tronco", "d": "Nunca tuerzas la columna con peso; gira el cuerpo moviendo los pies." },
+      { "t": "Mirada al horizonte", "d": "Mantén barbilla y pecho erguidos mientras caminas con el bulto." },
+      { "t": "Entrada a la furgoneta", "d": "Sube siempre con la regla de los 3 puntos de apoyo; nunca saltes con cajas en brazos." },
+      { "t": "Apoyo en el borde", "d": "Para el fondo del compartimento, apoya el borde de la caja en el umbral/estante y deslízala." },
+      { "t": "Altura ergonómica", "d": "Mantén los bultos pesados entre la altura del muslo y del pecho en la furgoneta." },
+      { "t": "Cargas en alto", "d": "Al bajar cajas por encima de los hombros, acércate y nunca arquees la espalda hacia atrás." },
+      { "t": "Descenso espejo", "d": "Haz el movimiento inverso para dejar la carga: flexiona piernas y baja con el tronco recto." },
+      { "t": "Bultos incómodos", "d": "Usa las esquinas de la caja como palanca y abre más las rodillas." },
+      { "t": "Atención a los pies", "d": "Cuidado de no dejar cajas pesadas sobre los dedos ni tropezar con cables sueltos." },
+      { "t": "Regla de oro del límite", "d": "Si el peso exige compensar con el cuello o la columna, para, usa carretilla o pide ayuda." }
+    ]
+  },
+  "casa": {
+    "title": "Ya Estoy en Casa",
+    "subtitle": "Turno terminado · tu momento",
+    "hello": "¡Llegaste bien, {{name}}! ¿Qué te piden ahora el cuerpo y la cabeza?",
+    "relax": { "title": "Ejercicios de Relajación", "desc": "Respiración guiada y estiramientos post-jornada" },
+    "talk": { "title": "Háblame", "desc": "Un compañero para charlar y reír" },
+    "breath": {
+      "title": "Respiración Cuadrada",
+      "desc": "Sigue el círculo. 4 segundos por fase.",
+      "phases": ["Inhala", "Sostén", "Exhala", "Sostén"],
+      "ready": "¿Listo?",
+      "start": "Iniciar",
+      "pause": "Pausar",
+      "reset": "Reiniciar",
+      "cycles": "Ciclos: {{n}}"
+    },
+    "postTitle": "Estiramientos post-jornada",
+    "post": [
+      { "name": "Descompresión Lumbar", "pose": "Postura del Niño", "dur": "1 min", "d": "Arrodíllate en la esterilla, siéntate sobre los talones y estira los brazos al frente, frente al suelo. Respira despacio." },
+      { "name": "Alivio de Piernas", "pose": "Piernas en la Pared", "dur": "3 min", "d": "Túmbate con la cadera cerca de la pared y estira las piernas hacia arriba. Mejora la circulación y drena la hinchazón." },
+      { "name": "Trapecio y Cuello", "pose": "Inclinación lateral", "dur": "1 min", "d": "Inclina la cabeza y deja que el peso de la mano tire suavemente. 30s por lado." },
+      { "name": "Glúteos y Ciático", "pose": "Pierna en 4", "dur": "2 min", "d": "Sentado o tumbado, cruza el tobillo sobre la rodilla contraria y lleva la pierna hacia el pecho." }
+    ]
+  },
+  "talk": {
+    "title": "Háblame",
+    "subtitle": "Tu compañero después del turno",
+    "placeholder": "Dale, te escucho…",
+    "typing": "escribiendo…",
+    "chips": ["Cómo fue mi día...", "Cuéntame un chiste", "Necesito desahogarme", "Hoy estoy hecho polvo"],
+    "local": "Charla 100% en tu dispositivo"
+  }
+}
