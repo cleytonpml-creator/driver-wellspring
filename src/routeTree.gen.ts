@@ -12,6 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AlongamentoRouteImport } from './routes/alongamento'
 import { Route as ApoioRouteImport } from './routes/apoio'
+import { Route as CasaRouteImport } from './routes/casa'
+import { Route as CasaConversaRouteImport } from './routes/casa-conversa'
+import { Route as CasaRelaxarRouteImport } from './routes/casa-relaxar'
+import { Route as LevantarCaixasRouteImport } from './routes/levantar-caixas'
 import { Route as NutricaoRouteImport } from './routes/nutricao'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
@@ -30,6 +34,26 @@ const ApoioRoute = ApoioRouteImport.update({
   path: '/apoio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CasaRoute = CasaRouteImport.update({
+  id: '/casa',
+  path: '/casa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CasaConversaRoute = CasaConversaRouteImport.update({
+  id: '/casa-conversa',
+  path: '/casa-conversa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CasaRelaxarRoute = CasaRelaxarRouteImport.update({
+  id: '/casa-relaxar',
+  path: '/casa-relaxar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LevantarCaixasRoute = LevantarCaixasRouteImport.update({
+  id: '/levantar-caixas',
+  path: '/levantar-caixas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NutricaoRoute = NutricaoRouteImport.update({
   id: '/nutricao',
   path: '/nutricao',
@@ -45,6 +69,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/alongamento': typeof AlongamentoRoute
   '/apoio': typeof ApoioRoute
+  '/casa': typeof CasaRoute
+  '/casa-conversa': typeof CasaConversaRoute
+  '/casa-relaxar': typeof CasaRelaxarRoute
+  '/levantar-caixas': typeof LevantarCaixasRoute
   '/nutricao': typeof NutricaoRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -52,6 +80,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/alongamento': typeof AlongamentoRoute
   '/apoio': typeof ApoioRoute
+  '/casa': typeof CasaRoute
+  '/casa-conversa': typeof CasaConversaRoute
+  '/casa-relaxar': typeof CasaRelaxarRoute
+  '/levantar-caixas': typeof LevantarCaixasRoute
   '/nutricao': typeof NutricaoRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -60,21 +92,57 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/alongamento': typeof AlongamentoRoute
   '/apoio': typeof ApoioRoute
+  '/casa': typeof CasaRoute
+  '/casa-conversa': typeof CasaConversaRoute
+  '/casa-relaxar': typeof CasaRelaxarRoute
+  '/levantar-caixas': typeof LevantarCaixasRoute
   '/nutricao': typeof NutricaoRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/alongamento' | '/apoio' | '/nutricao' | '/api/chat'
+  fullPaths:
+    | '/'
+    | '/alongamento'
+    | '/apoio'
+    | '/casa'
+    | '/casa-conversa'
+    | '/casa-relaxar'
+    | '/levantar-caixas'
+    | '/nutricao'
+    | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/alongamento' | '/apoio' | '/nutricao' | '/api/chat'
-  id: '__root__' | '/' | '/alongamento' | '/apoio' | '/nutricao' | '/api/chat'
+  to:
+    | '/'
+    | '/alongamento'
+    | '/apoio'
+    | '/casa'
+    | '/casa-conversa'
+    | '/casa-relaxar'
+    | '/levantar-caixas'
+    | '/nutricao'
+    | '/api/chat'
+  id:
+    | '__root__'
+    | '/'
+    | '/alongamento'
+    | '/apoio'
+    | '/casa'
+    | '/casa-conversa'
+    | '/casa-relaxar'
+    | '/levantar-caixas'
+    | '/nutricao'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AlongamentoRoute: typeof AlongamentoRoute
   ApoioRoute: typeof ApoioRoute
+  CasaRoute: typeof CasaRoute
+  CasaConversaRoute: typeof CasaConversaRoute
+  CasaRelaxarRoute: typeof CasaRelaxarRoute
+  LevantarCaixasRoute: typeof LevantarCaixasRoute
   NutricaoRoute: typeof NutricaoRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -102,6 +170,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApoioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/casa': {
+      id: '/casa'
+      path: '/casa'
+      fullPath: '/casa'
+      preLoaderRoute: typeof CasaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/casa-conversa': {
+      id: '/casa-conversa'
+      path: '/casa-conversa'
+      fullPath: '/casa-conversa'
+      preLoaderRoute: typeof CasaConversaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/casa-relaxar': {
+      id: '/casa-relaxar'
+      path: '/casa-relaxar'
+      fullPath: '/casa-relaxar'
+      preLoaderRoute: typeof CasaRelaxarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/levantar-caixas': {
+      id: '/levantar-caixas'
+      path: '/levantar-caixas'
+      fullPath: '/levantar-caixas'
+      preLoaderRoute: typeof LevantarCaixasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/nutricao': {
       id: '/nutricao'
       path: '/nutricao'
@@ -123,6 +219,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AlongamentoRoute: AlongamentoRoute,
   ApoioRoute: ApoioRoute,
+  CasaRoute: CasaRoute,
+  CasaConversaRoute: CasaConversaRoute,
+  CasaRelaxarRoute: CasaRelaxarRoute,
+  LevantarCaixasRoute: LevantarCaixasRoute,
   NutricaoRoute: NutricaoRoute,
   ApiChatRoute: ApiChatRoute,
 }
