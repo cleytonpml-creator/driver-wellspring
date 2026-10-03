@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-type Body = { messages?: { role: "user" | "assistant"; text: string }[]; name?: string };
+type Body = { messages?: { role: "user" | "assistant"; text: string }[]; name?: string; lang?: string };
 
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const { messages, name } = (await request.json()) as Body;
+        const { messages, name, lang } = (await request.json()) as Body;
         if (!Array.isArray(messages) || messages.length === 0) {
           return new Response("Mensagens obrigatórias", { status: 400 });
         }
@@ -20,6 +20,7 @@ export const Route = createFileRoute("/api/chat")({
           "Foque em bem-estar emocional, ergonomia na direção, pausas, respiração, hidratação e alongamento prático dentro ou ao lado da van.",
           "Ofereça 1 ou 2 sugestões concretas por resposta. Máximo 120 palavras.",
           "Nunca dê diagnóstico médico; em sinais de risco grave, oriente procurar ajuda profissional ou o CVV 188.",
+          lang === "en" ? "IMPORTANTE: responda sempre em inglês." : lang === "es" ? "IMPORTANTE: responda sempre em espanhol." : "",
           name ? `O motorista se chama ${name}. Use o nome dele com naturalidade, sem exagero.` : "",
         ]
           .filter(Boolean)

@@ -13,6 +13,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ShiftReminders } from "@/components/ShiftReminders";
 import { Toaster } from "@/components/ui/sonner";
+import "@/i18n";
+import { LanguageSync } from "@/components/LanguageSwitcher";
 
 function NotFoundComponent() {
   return (
@@ -87,6 +89,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
     ],
   }),
   shellComponent: RootShell,
@@ -115,6 +118,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <LanguageSync />
       <ShiftReminders />
       <Toaster position="top-center" richColors={false} />
     </QueryClientProvider>
