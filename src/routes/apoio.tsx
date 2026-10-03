@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { HeartHandshake, Mic, Send, Sparkles, Wind } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { useTranslation } from "react-i18next";
+import { speechLang } from "@/i18n";
 import { NamePrompt } from "@/components/NamePrompt";
 import { useDriverName } from "@/hooks/useDriverName";
 
@@ -19,11 +21,11 @@ export const Route = createFileRoute("/apoio")({
 
 type Msg = { id: string; role: "user" | "assistant"; text: string };
 
-const quick = ["Estou exausto", "Trânsito me estressou", "Ansioso com prazos", "Só quero desabafar"];
 
 function Breath() {
+  const { t } = useTranslation();
   const [phase, setPhase] = useState(0);
-  const phases = ["Inspire · 4s", "Segure · 4s", "Solte · 6s"];
+  const phases = t("apoio.phases", { returnObjects: true }) as string[];
   useEffect(() => {
     const id = setInterval(() => setPhase((p) => (p + 1) % 3), 4000);
     return () => clearInterval(id);
@@ -35,7 +37,7 @@ function Breath() {
         <Wind className="relative size-6 text-neon" />
       </div>
       <div>
-        <p className="text-xs uppercase tracking-widest text-muted-foreground">Respiração guiada 4-4-6</p>
+        <p className="text-xs uppercase tracking-widest text-muted-foreground">{t("apoio.breathLabel")}</p>
         <p className="font-display text-lg font-bold text-neon">{phases[phase]}</p>
       </div>
     </div>
@@ -44,6 +46,8 @@ function Breath() {
 
 function Apoio() {
   const { name } = useDriverName();
+  const { t, i18n } = useTranslation();
+  const quick = t("apoio.quick", { returnObjects: true }) as string[];
   const [editName, setEditName] = useState(false);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState("");
@@ -59,10 +63,10 @@ function Apoio() {
       {
         id: "intro",
         role: "assistant",
-        text: `Oi${name ? `, ${name}` : ""}! Sou seu apoio de bordo. Pode escrever o que quiser, do jeito que vier — cansaço, estresse, dor nas costas, ansiedade. Estou aqui.`,
+        text: t("apoio.intro", { name: name ? `, ${name}` : "" }),
       },
     ]);
-  }, [name]);
+  }, [name, t]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -84,12 +88,13 @@ function Apoio() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
+          lang: i18n.language,
           messages: history.map((m) => ({ role: m.role, text: m.text })),
         }),
       });
 
       if (!res.ok || !res.body) {
-        setError((await res.text().catch(() => "")) || "Não consegui responder agora. Tente de novo.");
+        setError((await res.text().catch(() => "")) || t("apoio.error"));
         setBusy(false);
         return;
       }
@@ -107,12 +112,12 @@ function Apoio() {
       if (!acc.trim()) {
         setMsgs((m) =>
           m.map((msg) =>
-            msg.id === replyId ? { ...msg, text: "Estou aqui com você. Pode me contar um pouco mais?" } : msg,
+            msg.id === replyId ? { ...msg, text: t("apoio.fallback") } : msg,
           ),
         );
       }
     } catch {
-      setError("Sem conexão no momento. Tente novamente quando o sinal voltar.");
+      setError(t("apoio.noConn"));
     } finally {
       setBusy(false);
     }
@@ -132,7 +137,7 @@ function Apoio() {
     const w = window as unknown as { SpeechRecognition?: SR; webkitSpeechRecognition?: SR };
     const Ctor = w.SpeechRecognition ?? w.webkitSpeechRecognition;
     if (!Ctor) {
-      setError("Seu navegador não suporta ditado por voz. Pode escrever sua mensagem.");
+      setError(t("apoio.noMic"));
       return;
     }
     if (listening) {
@@ -141,7 +146,7 @@ function Apoio() {
     }
     const rec = new Ctor();
     recRef.current = rec;
-    rec.lang = "pt-BR";
+    rec.lang = speechLang(i18n.language);
     rec.continuous = false;
     rec.interimResults = true;
     rec.onresult = (e) => {
@@ -157,20 +162,20 @@ function Apoio() {
   };
 
   return (
-    <AppShell title="Como Você Está Hoje?" subtitle="IA empática · sempre disponível" icon={HeartHandshake} tone="neon">
+    <AppShell title={t("apoio.title")} subtitle={t("apoio.subtitle")} icon={HeartHandshake} tone="neon">
       {editName && <NamePrompt forceOpen onClose={() => setEditName(false)} />}
 
       <div className="flex flex-1 flex-col gap-3 pb-40">
         <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-          <span>Falando com {name ?? "você"}</span>
+          <span>{t("apoio.talkingTo", { name: name ?? t("common.you") })}</span>
           <button onClick={() => setEditName(true)} className="tap rounded-full bg-secondary px-3 py-1 font-semibold text-neon">
-            {name ? "Trocar nome" : "Dizer meu nome"}
+            {name ? t("apoio.changeName") : t("apoio.sayName")}
           </button>
           <button
             onClick={() => setBreath((b) => !b)}
             className="tap rounded-full bg-secondary px-3 py-1 font-semibold text-neon"
           >
-            {breath ? "Fechar respiração" : "Respiração guiada"}
+            {breath ? t("apoio.breathClose") : t("apoio.breathOpen")}
           </button>
         </div>
 
@@ -202,7 +207,7 @@ function Apoio() {
               <span className="size-2 animate-bounce rounded-full bg-neon [animation-delay:120ms]" />
               <span className="size-2 animate-bounce rounded-full bg-neon [animation-delay:240ms]" />
             </span>
-            pensando com carinho…
+            {t("apoio.thinking")}
           </div>
         )}
 
@@ -238,7 +243,7 @@ function Apoio() {
           <button
             type="button"
             onClick={toggleMic}
-            aria-label="Falar por áudio"
+            aria-label={t("apoio.mic")}
             className={`tap flex size-12 shrink-0 items-center justify-center rounded-2xl transition-colors ${
               listening ? "bg-destructive text-destructive-foreground animate-pulse" : "bg-secondary text-neon"
             }`}
@@ -248,12 +253,12 @@ function Apoio() {
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder={listening ? "Ouvindo…" : "Escreva ou fale o que quiser…"}
+            placeholder={listening ? t("apoio.listening") : t("apoio.placeholder")}
             className="h-12 min-w-0 flex-1 bg-transparent px-2 text-[15px] outline-none placeholder:text-muted-foreground"
           />
           <button
             type="submit"
-            aria-label="Enviar"
+            aria-label={t("apoio.send")}
             disabled={!text.trim() || busy}
             className="tap flex size-12 shrink-0 items-center justify-center rounded-2xl bg-neon text-primary-foreground shadow-neon disabled:opacity-40"
           >

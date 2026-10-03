@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Check, ChevronDown } from "lucide-react";
-import { LANGS, LANG_KEY } from "@/i18n";
+import { LANGS, LANG_KEY, LANG_COOKIE } from "@/i18n";
 
-/** Restores the saved language on the client and keeps <html lang> + storage in sync. */
+/** Persists language changes to localStorage + cookie (cookie lets SSR render the same language). */
 export function LanguageSync() {
   const { i18n } = useTranslation();
   useEffect(() => {
-    const saved = localStorage.getItem(LANG_KEY);
-    if (saved && LANGS.some((l) => l.code === saved) && saved !== i18n.language) void i18n.changeLanguage(saved);
     const onChange = (lng: string) => {
       localStorage.setItem(LANG_KEY, lng);
+      document.cookie = `${LANG_COOKIE}=${lng}; path=/; max-age=31536000; samesite=lax`;
       document.documentElement.lang = lng === "pt" ? "pt-BR" : lng;
     };
     i18n.on("languageChanged", onChange);

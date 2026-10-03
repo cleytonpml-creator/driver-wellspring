@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Armchair, CheckCircle2, Dumbbell, Footprints, Pause, Play, RotateCcw, Timer, type LucideIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { useTranslation } from "react-i18next";
+import { speechLang } from "@/i18n";
 import imgPelvica from "@/assets/ex/pelvica.jpg";
 import imgTorcao from "@/assets/ex/torcao.jpg";
 import imgGatoVaca from "@/assets/ex/gatovaca.jpg";
@@ -31,51 +33,45 @@ export const Route = createFileRoute("/alongamento")({
   component: Alongamento,
 });
 
-type Ex = { name: string; secs: number; steps: string[]; img: string };
-type Cat = { id: string; label: string; short: string; icon: LucideIcon; total: string; exs: Ex[] };
+type Ex = { id: string; secs: number; img: string };
+type Cat = { id: string; icon: LucideIcon; total: string; exs: Ex[] };
 
 const cats: Cat[] = [
   {
     id: "lombar",
-    label: "Lombar e Postura",
-    short: "Lombar",
     icon: Armchair,
     total: "4 min",
     exs: [
-      { name: "Inclinação pélvica sentado", secs: 45, img: imgPelvica, steps: ["Sente ereto, pés no chão", "Arqueie e arredonde a lombar devagar", "Respire fundo a cada movimento"] },
-      { name: "Torção de tronco", secs: 40, img: imgTorcao, steps: ["Mão no encosto do banco", "Gire o tronco para o lado", "Troque de lado na metade"] },
-      { name: "Gato-vaca em pé", secs: 45, img: imgGatoVaca, steps: ["Mãos apoiadas na van", "Arqueie as costas, olhe para cima", "Arredonde, queixo no peito"] },
-      { name: "Flexão à frente", secs: 40, img: imgFlexao, steps: ["Pés na largura do quadril", "Solte o tronco para baixo", "Deixe a cabeça pesada e relaxe"] },
-      { name: "Abertura de peito", secs: 30, img: imgPeito, steps: ["Mãos entrelaçadas atrás", "Abra o peito e olhe à frente", "Ombros para trás e para baixo"] },
+      { id: "pelvica", secs: 45, img: imgPelvica },
+      { id: "torcao", secs: 40, img: imgTorcao },
+      { id: "gatovaca", secs: 45, img: imgGatoVaca },
+      { id: "flexao", secs: 40, img: imgFlexao },
+      { id: "peito", secs: 30, img: imgPeito },
     ],
   },
   {
     id: "ombros",
-    label: "Pescoço, Ombros e Braços",
-    short: "Ombros",
     icon: Dumbbell,
     total: "3 min",
     exs: [
-      { name: "Rotação de ombros", secs: 30, img: imgRotacao, steps: ["Circule os ombros para trás", "Movimentos grandes e lentos", "Inverta o sentido na metade"] },
-      { name: "Pescoço e trapézio", secs: 40, img: imgTrapezio, steps: ["Incline a cabeça para o lado", "Mão puxando levemente", "Troque de lado em 20s"] },
-      { name: "Cruzado de braço", secs: 40, img: imgCruzado, steps: ["Braço cruzado no peito", "Puxe com o outro braço", "Troque de lado em 20s"] },
-      { name: "Tríceps acima da cabeça", secs: 40, img: imgTriceps, steps: ["Cotovelo apontando para cima", "Mão desce pelas costas", "Troque de lado em 20s"] },
-      { name: "Punhos e mãos", secs: 30, img: imgPunhos, steps: ["Solte punhos e dedos", "Abra e feche as mãos", "Alivia o aperto no volante"] },
+      { id: "rotacao", secs: 30, img: imgRotacao },
+      { id: "trapezio", secs: 40, img: imgTrapezio },
+      { id: "cruzado", secs: 40, img: imgCruzado },
+      { id: "triceps", secs: 40, img: imgTriceps },
+      { id: "punhos", secs: 30, img: imgPunhos },
     ],
   },
   {
     id: "pernas",
-    label: "Pernas e Joelhos",
-    short: "Pernas",
     icon: Footprints,
     total: "5 min",
     exs: [
-      { name: "Quadríceps em pé", secs: 50, img: imgQuadriceps, steps: ["Apoie na van", "Puxe o calcanhar até o glúteo", "Troque de lado em 25s"] },
-      { name: "Panturrilha na parede", secs: 50, img: imgPanturrilha, steps: ["Perna de trás esticada", "Calcanhar no chão", "Troque de lado em 25s"] },
-      { name: "Posterior de coxa", secs: 50, img: imgPosterior, steps: ["Pé no estribo da van", "Tronco inclinado à frente", "Troque de lado em 25s"] },
-      { name: "Agachamento leve", secs: 40, img: imgAgachamento, steps: ["Pés afastados", "Desça devagar até onde der", "Joelhos alinhados aos pés"] },
-      { name: "Elevação de panturrilha", secs: 40, img: imgElevacao, steps: ["Suba nas pontas dos pés", "Segure 2 segundos", "Desça controlado"] },
-      { name: "Balanço de perna", secs: 40, img: imgBalanco, steps: ["Segure na porta", "Balance a perna à frente e atrás", "Troque de lado em 20s"] },
+      { id: "quadriceps", secs: 50, img: imgQuadriceps },
+      { id: "panturrilha", secs: 50, img: imgPanturrilha },
+      { id: "posterior", secs: 50, img: imgPosterior },
+      { id: "agachamento", secs: 40, img: imgAgachamento },
+      { id: "elevacao", secs: 40, img: imgElevacao },
+      { id: "balanco", secs: 40, img: imgBalanco },
     ],
   },
 ];
@@ -84,13 +80,13 @@ function fmt(s: number) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
-function speak(text: string) {
+function speak(text: string, lang = "pt-BR") {
   if (!("speechSynthesis" in window)) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = "pt-BR";
+  u.lang = lang;
   u.rate = 1;
-  const voice = window.speechSynthesis.getVoices().find((v) => v.lang.startsWith("pt"));
+  const voice = window.speechSynthesis.getVoices().find((v) => v.lang.startsWith(lang.slice(0, 2)));
   if (voice) u.voice = voice;
   window.speechSynthesis.speak(u);
 }
@@ -111,6 +107,10 @@ function beep(freq = 880, dur = 0.25) {
 }
 
 function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done: boolean; onDone: () => void }) {
+  const { t, i18n } = useTranslation();
+  const lang = speechLang(i18n.language);
+  const name = t(`stretch.ex.${ex.id}.name`);
+  const steps = t(`stretch.ex.${ex.id}.steps`, { returnObjects: true }) as string[];
   const [left, setLeft] = useState(ex.secs);
   const [running, setRunning] = useState(false);
   const [open, setOpen] = useState(false);
@@ -121,19 +121,19 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
       setRunning(false);
       beep(880, 0.3);
       setTimeout(() => beep(1320, 0.35), 250);
-      speak("Muito bem! Exercício concluído.");
+      speak(t("stretch.vDone"), lang);
       onDone();
       return;
     }
-    if (left === 10) speak("Últimos dez segundos.");
+    if (left === 10) speak(t("stretch.vLast"), lang);
     const id = setTimeout(() => setLeft((l) => l - 1), 1000);
     return () => clearTimeout(id);
-  }, [running, left, onDone]);
+  }, [running, left, onDone, t, lang]);
 
   const toggle = () => {
     if (left === 0) setLeft(ex.secs);
     setRunning((v) => {
-      if (!v) speak(`${ex.name}. ${ex.steps.join(". ")}. Começando!`);
+      if (!v) speak(`${name}. ${steps.join(". ")}. ${t("stretch.vStart")}`, lang);
       else window.speechSynthesis?.cancel();
       return !v;
     });
@@ -151,7 +151,7 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface">
         <img
           src={ex.img}
-          alt={`Ilustração do exercício ${ex.name}`}
+          alt={t("stretch.alt", { name })}
           loading="lazy"
           width={816}
           height={816}
@@ -159,11 +159,11 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
         />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-surface to-transparent" />
         <span className="absolute left-3 top-3 rounded-full bg-background/70 px-3 py-1 text-xs font-bold text-neon backdrop-blur">
-          Segure por {ex.secs}s
+          {t("stretch.hold", { s: ex.secs })}
         </span>
         {done && (
           <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-mint/15 px-3 py-1 text-xs font-bold text-mint backdrop-blur">
-            <CheckCircle2 className="size-4" /> Feito
+            <CheckCircle2 className="size-4" /> {t("stretch.done")}
           </span>
         )}
       </div>
@@ -184,25 +184,25 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
           </span>
         </div>
         <div className="min-w-0 flex-1">
-          <h3 className="font-bold leading-tight">{ex.name}</h3>
+          <h3 className="font-bold leading-tight">{name}</h3>
           <button
             onClick={() => setOpen((o) => !o)}
             className="mt-1 text-xs font-semibold text-neon"
           >
-            {open ? "Ocultar passo a passo" : "Ver passo a passo"}
+            {open ? t("stretch.hide") : t("stretch.show")}
           </button>
         </div>
         <div className="flex gap-2">
           <button
             onClick={toggle}
-            aria-label={running ? "Pausar" : "Iniciar"}
+            aria-label={running ? t("stretch.pause") : t("stretch.start")}
             className={`tap flex size-14 items-center justify-center rounded-2xl ${running ? "bg-secondary text-foreground" : "bg-electric text-accent-foreground shadow-electric"}`}
           >
             {running ? <Pause className="size-6" /> : <Play className="size-6 translate-x-0.5" fill="currentColor" />}
           </button>
           <button
             onClick={() => { setRunning(false); setLeft(ex.secs); window.speechSynthesis?.cancel(); }}
-            aria-label="Reiniciar"
+            aria-label={t("stretch.reset")}
             className="tap flex size-14 items-center justify-center rounded-2xl bg-secondary text-muted-foreground"
           >
             <RotateCcw className="size-5" />
@@ -212,7 +212,7 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
 
       {(open || running) && (
         <ol className="space-y-2 border-t border-border px-4 pb-4 pt-3 animate-rise">
-          {ex.steps.map((s, i) => (
+          {steps.map((s, i) => (
             <li key={s} className="flex items-start gap-3 text-sm">
               <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-electric/15 text-xs font-bold text-electric">{i + 1}</span>
               <span className="text-foreground/90">{s}</span>
@@ -225,13 +225,14 @@ function ExerciseCard({ ex, index, done, onDone }: { ex: Ex; index: number; done
 }
 
 function Alongamento() {
+  const { t } = useTranslation();
   const [catId, setCatId] = useState("lombar");
   const [done, setDone] = useState<Record<string, boolean>>({});
   const cat = cats.find((c) => c.id === catId) ?? cats[0]!;
-  const doneCount = cat.exs.filter((e) => done[`${cat.id}-${e.name}`]).length;
+  const doneCount = cat.exs.filter((e) => done[`${cat.id}-${e.id}`]).length;
 
   return (
-    <AppShell title="Alongamento e Mobilidade" subtitle="Rotinas rápidas · 3 a 5 min" icon={Activity} tone="electric">
+    <AppShell title={t("stretch.title")} subtitle={t("stretch.subtitle")} icon={Activity} tone="electric">
       <div className="grid grid-cols-3 gap-2 animate-rise">
         {cats.map((c) => {
           const active = c.id === catId;
@@ -244,7 +245,7 @@ function Alongamento() {
               }`}
             >
               <c.icon className="size-6" />
-              <span className="text-xs font-bold leading-tight">{c.short}</span>
+              <span className="text-xs font-bold leading-tight">{t(`stretch.cats.${c.id}.short`)}</span>
               <span className="text-[10px] opacity-70">{c.total}</span>
             </button>
           );
@@ -253,8 +254,8 @@ function Alongamento() {
 
       <div key={cat.id} className="mt-5 flex items-end justify-between animate-rise">
         <div>
-          <h2 className="text-xl font-bold">{cat.label}</h2>
-          <p className="text-sm text-muted-foreground">{cat.exs.length} exercícios · toque para ver o passo a passo</p>
+          <h2 className="text-xl font-bold">{t(`stretch.cats.${cat.id}.label`)}</h2>
+          <p className="text-sm text-muted-foreground">{t("stretch.count", { n: cat.exs.length })}</p>
         </div>
         <div className="flex items-center gap-1.5 rounded-full bg-mint/10 px-3 py-1 text-xs font-bold text-mint">
           <Timer className="size-3.5" /> {doneCount}/{cat.exs.length}
@@ -263,7 +264,7 @@ function Alongamento() {
 
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         {cat.exs.map((ex, i) => {
-          const key = `${cat.id}-${ex.name}`;
+          const key = `${cat.id}-${ex.id}`;
           return (
             <ExerciseCard
               key={key}

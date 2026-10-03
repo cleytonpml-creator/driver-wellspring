@@ -2,37 +2,22 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Coffee, Droplets, Moon, Sun } from "lucide-react";
 import { useDriverName } from "@/hooks/useDriverName";
+import i18n from "@/i18n";
 
-type Shift = "madrugada" | "manha" | "tarde" | "noite";
+type Shift = "dawn" | "morning" | "afternoon" | "night";
 
 function shiftOf(h: number): Shift {
-  if (h < 5) return "madrugada";
-  if (h < 12) return "manha";
-  if (h < 18) return "tarde";
-  return "noite";
+  if (h < 5) return "dawn";
+  if (h < 12) return "morning";
+  if (h < 18) return "afternoon";
+  return "night";
 }
 
-const pool: Record<Shift, { icon: typeof Sun; text: (n: string) => string }[]> = {
-  madrugada: [
-    { icon: Moon, text: (n) => `${n}, rota noturna pede pausa. Pare em local seguro e alongue o pescoço por 30s.` },
-    { icon: Droplets, text: (n) => `Água gelada ajuda a manter o alerta, ${n}. Beba alguns goles agora.` },
-    { icon: Coffee, text: (n) => `Sono batendo? 15 minutos parado valem mais que 1 hora arriscada, ${n}.` },
-  ],
-  manha: [
-    { icon: Sun, text: (n) => `Bom dia de trabalho, ${n}! Que tal soltar os ombros antes da próxima entrega?` },
-    { icon: Droplets, text: (n) => `Hidratação, ${n}. Meio copo d'água agora evita a dor de cabeça da tarde.` },
-    { icon: Coffee, text: (n) => `Hora da pausa, ${n}! Levante e faça um alongamento rápido de lombar.` },
-  ],
-  tarde: [
-    { icon: Coffee, text: (n) => `Hora da pausa, ${n}! Que tal levantar e fazer um alongamento rápido?` },
-    { icon: Droplets, text: (n) => `${n}, o calor desidrata rápido. Beba água antes de sentir sede.` },
-    { icon: Sun, text: (n) => `Confere a postura, ${n}: coluna apoiada, ombros baixos, mãos leves no volante.` },
-  ],
-  noite: [
-    { icon: Moon, text: (n) => `Dia longo, ${n}. Respire fundo 3 vezes antes de seguir viagem.` },
-    { icon: Droplets, text: (n) => `Última hidratação do turno, ${n}. Seu corpo agradece amanhã.` },
-    { icon: Coffee, text: (n) => `Pausa de 5 minutos, ${n}? Pernas e joelhos pedem movimento.` },
-  ],
+const icons: Record<Shift, (typeof Sun)[]> = {
+  dawn: [Moon, Droplets, Coffee],
+  morning: [Sun, Droplets, Coffee],
+  afternoon: [Coffee, Droplets, Sun],
+  night: [Moon, Droplets, Coffee],
 };
 
 const INTERVAL_MS = 45 * 60 * 1000;
@@ -51,15 +36,15 @@ export function ShiftReminders() {
 
     const fire = () => {
       const shift = shiftOf(new Date().getHours());
-      const list = pool[shift];
-      const item = list[idx.current % list.length]!;
+      const list = i18n.t(`reminders.${shift}`, { returnObjects: true, name: nameRef }) as string[];
+      const k = idx.current % list.length;
       idx.current += 1;
       localStorage.setItem(LAST_KEY, String(Date.now()));
-      const Icon = item.icon;
-      toast(item.text(nameRef), {
+      const Icon = icons[shift][k]!;
+      toast(list[k], {
         duration: 12000,
         icon: <Icon className="size-5 text-neon" />,
-        action: { label: "Alongar", onClick: () => (window.location.href = "/alongamento") },
+        action: { label: i18n.t("reminders.action"), onClick: () => (window.location.href = "/alongamento") },
       });
     };
 
