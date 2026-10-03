@@ -82,7 +82,7 @@ function Index() {
       <NamePrompt forceOpen={editName} onClose={() => setEditName(false)} />
       <div className="grid-bg pointer-events-none absolute inset-x-0 top-0 h-80" />
 
-      <header className="relative z-10 flex items-center animate-rise">
+      <header className="relative z-30 flex items-center animate-rise">
         <div className="flex items-center gap-3">
           <div className="flex size-11 items-center justify-center rounded-xl bg-neon/10 text-neon shadow-neon">
             <Zap className="size-6" fill="currentColor" />
