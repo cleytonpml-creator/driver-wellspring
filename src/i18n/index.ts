@@ -11,6 +11,16 @@ export const LANGS = [
 ] as const;
 export type Lang = (typeof LANGS)[number]["code"];
 export const LANG_KEY = "driverpulse:lang";
+export const LANG_COOKIE = "driverpulse_lang";
+
+export function normalizeLang(v: string | null | undefined): Lang {
+  return LANGS.some((l) => l.code === v) ? (v as Lang) : "pt";
+}
+
+export function readClientLang(): Lang {
+  const m = document.cookie.match(/(?:^|; )driverpulse_lang=([^;]+)/);
+  return normalizeLang(m?.[1] ?? localStorage.getItem(LANG_KEY));
+}
 
 export function speechLang(code: string) {
   return LANGS.find((l) => l.code === code)?.speech ?? "pt-BR";
@@ -23,6 +33,7 @@ if (!i18n.isInitialized) {
     fallbackLng: "pt",
     interpolation: { escapeValue: false },
     react: { useSuspense: false },
+    initAsync: false,
   });
 }
 

@@ -8,13 +8,15 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useMemo, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ShiftReminders } from "@/components/ShiftReminders";
 import { Toaster } from "@/components/ui/sonner";
-import "@/i18n";
+import i18n, { normalizeLang, readClientLang } from "@/i18n";
+import { I18nextProvider } from "react-i18next";
+import { getLangCookie } from "@/lib/lang.functions";
 import { LanguageSync } from "@/components/LanguageSwitcher";
 
 function NotFoundComponent() {
@@ -72,6 +74,9 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  beforeLoad: async () => ({
+    lang: typeof window === "undefined" ? normalizeLang(await getLangCookie()) : readClientLang(),
+  }),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -114,8 +119,14 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
+  const { queryClient, lang } = Route.useRouteContext();
+  const inst = useMemo(() => {
+    if (typeof window === "undefined") return i18n.cloneInstance({ lng: lang, initAsync: false });
+    if (i18n.language !== lang) void i18n.changeLanguage(lang);
+    return i18n;
+  }, [lang]);
   return (
+    <I18nextProvider i18n={inst}>
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
@@ -123,5 +134,6 @@ function RootComponent() {
       <ShiftReminders />
       <Toaster position="top-center" richColors={false} />
     </QueryClientProvider>
+    </I18nextProvider>
   );
 }
