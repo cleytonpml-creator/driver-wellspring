@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/AppShell";
 import { useDriverName } from "@/hooks/useDriverName";
-import { companionIntro, companionReply, type Lang } from "@/lib/companion";
+import { companionIntro, type Lang } from "@/lib/companion";
 
 export const Route = createFileRoute("/casa-conversa")({
   head: () => ({
@@ -28,6 +28,7 @@ function Talk() {
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState("");
   const [typing, setTyping] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -42,17 +43,51 @@ function Talk() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [msgs, typing]);
 
-  const send = (value: string) => {
+  const send = async (value: string) => {
     const v = value.trim();
     if (!v || typing) return;
+    setError(null);
+    const history = [...msgs.filter((m) => m.id !== "intro"), { id: "pending", role: "user" as const, text: v }];
     setMsgs((m) => [...m, { id: crypto.randomUUID(), role: "user", text: v }]);
     setText("");
     setTyping(true);
-    setTimeout(() => {
-      setMsgs((m) => [...m, { id: crypto.randomUUID(), role: "bot", text: companionReply(v, lang, who) }]);
+
+    const replyId = crypto.randomUUID();
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          lang,
+          messages: history.map((m) => ({ role: m.role === "bot" ? "assistant" : m.role, text: m.text })),
+        }),
+      });
+
+      if (!res.ok || !res.body) {
+        setError((await res.text().catch(() => "")) || t("apoio.error"));
+        return;
+      }
+
+      setMsgs((m) => [...m, { id: replyId, role: "bot", text: "" }]);
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let acc = "";
+      for (;;) {
+        const { done, value: chunk } = await reader.read();
+        if (done) break;
+        acc += dec.decode(chunk, { stream: true });
+        setMsgs((m) => m.map((msg) => (msg.id === replyId ? { ...msg, text: acc } : msg)));
+      }
+      if (!acc.trim()) {
+        setMsgs((m) => m.map((msg) => (msg.id === replyId ? { ...msg, text: t("apoio.fallback") } : msg)));
+      }
+    } catch {
+      setError(t("apoio.noConn"));
+    } finally {
       setTyping(false);
       inputRef.current?.focus();
-    }, 700 + Math.random() * 600);
+    }
   };
 
   const chips = t("talk.chips", { returnObjects: true }) as string[];
@@ -73,7 +108,7 @@ function Talk() {
                 m.role === "user" ? "rounded-br-md bg-amber text-primary-foreground" : "glass rounded-bl-md"
               }`}
             >
-              {m.text}
+              {m.text || "…"}
             </div>
           </div>
         ))}
@@ -87,6 +122,11 @@ function Talk() {
             {t("talk.typing")}
           </div>
         )}
+        {error && (
+          <div className="rounded-2xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive-foreground">
+            {error}
+          </div>
+        )}
         <div ref={endRef} />
       </div>
 
@@ -95,7 +135,7 @@ function Talk() {
           {chips.map((c) => (
             <button
               key={c}
-              onClick={() => send(c)}
+              onClick={() => void send(c)}
               disabled={typing}
               className="tap shrink-0 rounded-full border border-amber/40 bg-background/80 px-4 py-2 text-sm font-medium text-amber backdrop-blur disabled:opacity-40"
             >
@@ -104,7 +144,7 @@ function Talk() {
           ))}
         </div>
         <form
-          onSubmit={(e) => { e.preventDefault(); send(text); }}
+          onSubmit={(e) => { e.preventDefault(); void send(text); }}
           className="glass flex items-center gap-2 rounded-3xl border border-amber/30 p-2"
         >
           <input
