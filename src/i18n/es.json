@@ -498,7 +498,9 @@
         "t": "Regla de oro del límite",
         "d": "Si el peso exige compensar con el cuello o la columna, para, usa carretilla o pide ayuda."
       }
-    ]
+    ],
+    "listen": "Escuchar explicación",
+    "stop": "Detener audio"
   },
   "casa": {
     "title": "Ya Estoy en Casa",

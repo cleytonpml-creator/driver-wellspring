@@ -498,7 +498,9 @@
         "t": "Regra de ouro do limite",
         "d": "Se o peso exigir compensação com o pescoço ou coluna, pare, use carrinho ou peça ajuda."
       }
-    ]
+    ],
+    "listen": "Ouvir explicação",
+    "stop": "Parar áudio"
   },
   "casa": {
     "title": "Já Estou em Casa",
