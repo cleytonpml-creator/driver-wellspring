@@ -498,7 +498,9 @@
         "t": "Golden rule of limits",
         "d": "If the weight makes you compensate with your neck or spine, stop, use a trolley or ask for help."
       }
-    ]
+    ],
+    "listen": "Listen to explanation",
+    "stop": "Stop audio"
   },
   "casa": {
     "title": "I'm Home Now",
